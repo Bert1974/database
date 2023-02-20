@@ -20,7 +20,7 @@ import 'package:meta/meta.dart';
 @sealed
 class DocumentInsertRequest extends Request<Future<void>> {
   final Transaction transaction;
-  final Collection /*!*/ collection;
+  final Collection /*?*/ collection;
   final Document document;
   final Map<String, Object> /*!*/ data;
   final Reach /*!*/ reach;
@@ -29,7 +29,7 @@ class DocumentInsertRequest extends Request<Future<void>> {
 
   DocumentInsertRequest({
     this.transaction,
-    @required Collection /*!*/ collection,
+    @required Collection /*?*/ collection,
     @required this.document,
     @required this.data,
     @required this.reach,

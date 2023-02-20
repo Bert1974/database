@@ -15,7 +15,6 @@
 import 'dart:typed_data';
 
 import 'package:database/database.dart';
-import 'package:fixnum/fixnum.dart';
 
 /// Compares any support primitives.
 int defaultComparator(Object left, Object right) {

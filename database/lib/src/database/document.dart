@@ -54,7 +54,7 @@ import 'package:meta/meta.dart';
 ///
 class Document<T> {
   /// Collection where the document is.
-  final Collection parent;
+  final Collection /*?*/ parent;
 
   /// A non-blank document identifier.
   ///

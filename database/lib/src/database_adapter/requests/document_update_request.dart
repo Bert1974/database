@@ -23,7 +23,7 @@ class DocumentUpdateRequest extends Request<Future<void>> {
   final Document /*!*/ document;
   final Map<String, Object> /*!*/ data;
   final bool /*!*/ isPatch;
-  final Reach /*!*/ reach;
+  final Reach /*?*/ reach;
   Schema inputSchema;
 
   DocumentUpdateRequest({

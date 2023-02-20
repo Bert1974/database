@@ -11,10 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+import 'dart:async';
 import 'package:database/database_adapter.dart';
 
 abstract class Request<R> {
   /// Delegates this request to another database adapter.
-  R delegateTo(DatabaseAdapter adapter);
+  FutureOr<R> delegateTo(DatabaseAdapter adapter);
+  // Stream<T2> delegateToStream<T2>(DatabaseAdapter adapter) async* {}
 }

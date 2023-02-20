@@ -16,14 +16,14 @@ import 'dart:async';
 
 import 'package:database/database.dart';
 import 'package:database/schema.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void runCollectionAndDocumentTests() {
   Database database;
   Collection collection;
   final inserted = <Document>[];
 
-  Future<Document /*!*/ > insert({Map<String, Object> data}) async {
+  Future<Document> insert({Map<String, Object> data}) async {
     final document = await collection.insert(data: data);
     inserted.add(document);
     return document;
@@ -38,7 +38,7 @@ void runCollectionAndDocumentTests() {
       return;
     }
     collection = database.collection('exampleCollection');
-    await collection.searchAndDelete().last;
+    await collection.searchAndDelete();
     await _waitAfterWrite();
 
     addTearDown(() async {
@@ -1013,7 +1013,7 @@ void runSqlTests() {
   });
 
   tearDownAll(() async {
-    await database?.adapter.close();
+    await database?.adapter?.close();
   });
 
   test('a simple example', () async {
@@ -1021,7 +1021,7 @@ void runSqlTests() {
       return;
     }
 
-    final sqlClient = /*await*/ database.sqlClient;
+    final sqlClient = database.sqlClient;
 
     //
     // Create table

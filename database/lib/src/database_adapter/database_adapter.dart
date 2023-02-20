@@ -16,7 +16,6 @@ import 'package:database/database.dart';
 import 'package:database/database_adapter.dart';
 import 'package:database/schema.dart';
 import 'package:database/sql.dart';
-import 'package:database/src/database_adapter/requests/schema_read_request.dart';
 import 'package:meta/meta.dart';
 
 /// Superclass for database adapters.
@@ -42,22 +41,22 @@ abstract class DatabaseAdapter {
     return Future<void>.value();
   }
 
-  Future<void> performDocumentBatch(
+  Future<DocumentBatchResponse> performDocumentBatch(
     DocumentBatchRequest request,
   ) {
     final documentDeleteResponses = List<Future<void>>.unmodifiable(
       request.documentDeleteRequests.map((request) {
-        return performDocumentDelete(request);
+        return /*void*/ performDocumentDelete(request);
       }),
     );
     final documentInsertResponses = List<Future<void>>.unmodifiable(
       request.documentInsertRequests.map((request) {
-        return performDocumentInsert(request);
+        return /*void*/ performDocumentInsert(request);
       }),
     );
     final documentSearchResponses =
         request.documentSearchRequests.map((request) {
-      return performDocumentSearch(request);
+      return /* Stream<QueryResult>*/ performDocumentSearch(request);
     });
     final documentReadResponses = request.documentReadRequests.map((request) {
       return performDocumentRead(request);

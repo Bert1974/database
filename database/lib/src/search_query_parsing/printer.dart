@@ -99,7 +99,7 @@ class SearchQueryPrinter extends FilterVisitor<void, Null> {
 
   @override
   void visitListFilter(ListFilter filter, Null context) {
-    filter.items?.accept(this, context);
+    filter.item.accept(this, context);
   }
 
   @override

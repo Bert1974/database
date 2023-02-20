@@ -39,6 +39,7 @@ import 'package:collection/collection.dart';
 import 'package:database/database.dart';
 import 'package:database/database_adapter.dart';
 import 'package:meta/meta.dart';
+import 'dart:async';
 
 part 'src/sql/sql_client.dart';
 part 'src/sql/sql_client_table_helper.dart';

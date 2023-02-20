@@ -116,9 +116,9 @@ class Collection {
   }
 
   /// Inserts a new value.
-  Future<Document> insert({
+  Future<Document /*!*/ > insert({
     Map<String, Object> data,
-    Reach reach,
+    Reach /*?*/ reach,
   }) async {
     Document result;
     await DocumentInsertRequest(
@@ -186,11 +186,11 @@ class Collection {
   /// If both [queryString] and [filter] are non-null, the database will
   /// receive an [AndFilter] that contains both the parsed filter and the other
   /// filter.
-  Future<void> searchAndDelete({
+  Stream<QueryResult> searchAndDelete({
     Query query,
     Reach reach,
-  }) async {
-    return DocumentSearchChunkedRequest(
+  }) async* {
+    yield* DocumentSearchChunkedRequest(
       collection: this,
       query: query,
       reach: reach,
