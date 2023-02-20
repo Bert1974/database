@@ -73,7 +73,7 @@ class Query {
   /// The number of items to take.
   ///
   /// The default value is null, which means that all items will be the taken.
-  final int take;
+  final int /*?*/ take;
 
   const Query({
     this.filter,
