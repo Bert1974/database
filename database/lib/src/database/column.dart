@@ -44,7 +44,7 @@ abstract class ColumnQueryHelper<T> {
   ColumnQueryHelper<T> whereEqual(T value) => where((item) => item == value);
 }
 
-class _ColumnQueryHelper<T> extends Column<T> with ColumnQueryHelper<T> {
+class _ColumnQueryHelper<T> extends Column<T /*!*/ > with ColumnQueryHelper<T> {
   @override
   final Collection collection;
   final String _propertyName;
@@ -143,8 +143,8 @@ class _ColumnQueryHelper<T> extends Column<T> with ColumnQueryHelper<T> {
       }
       return;
     }
-    var skip = _skip ?? 0;
-    var take = _take ?? 0;
+    var skip = _skip;
+    var take = _take;
     if (take == 0) {
       return;
     }
