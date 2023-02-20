@@ -15,7 +15,6 @@
 import 'package:database/database.dart';
 import 'package:database/database_adapter.dart';
 import 'package:database/schema.dart';
-import 'package:universal_io/io.dart';
 
 /// Describes an vendor-specific operation that [DatabaseAdapter] should
 /// perform. The response is a stream of [DatabaseExtensionResponse] objects.

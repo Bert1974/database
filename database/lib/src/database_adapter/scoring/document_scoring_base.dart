@@ -123,7 +123,7 @@ class DocumentScoringStateBase extends DocumentScoringState
 
   @override
   double visitListFilter(ListFilter filter, Object context) {
-    return filter.items?.accept(this, context) ?? 1.0;
+    return filter.item.accept(this, context) ?? 1.0;
   }
 
   @override

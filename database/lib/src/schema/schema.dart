@@ -25,7 +25,7 @@ abstract class PrimitiveSchema<T> extends Schema<T> {
   }
 
   @override
-  bool isValidTree(Object argument, {List cycleDetectionStack}) {
+  bool isValidTree(Object /*?*/ argument, {List cycleDetectionStack}) {
     if (argument == null) {
       return true;
     }
@@ -33,7 +33,7 @@ abstract class PrimitiveSchema<T> extends Schema<T> {
   }
 
   @override
-  T selectTree(Object argument, {bool ignoreErrors = false}) {
+  T selectTree(Object /*?*/ argument, {bool ignoreErrors = false}) {
     if (argument == null) {
       return null;
     }
@@ -98,7 +98,7 @@ abstract class Schema<T> {
 
   Object toJson();
 
-  static Schema fromJson(Object json) {
+  static Schema /*?*/ fromJson(Object json) {
     if (json == null) {
       return null;
     }
@@ -184,7 +184,7 @@ abstract class Schema<T> {
   }
 
   /// Constructs a schema from a Dart tree.
-  static Schema fromValue(Object value, {List cycleDetectionStack}) {
+  static Schema /*?*/ fromValue(Object value, {List cycleDetectionStack}) {
     if (value == null) {
       return null;
     }
@@ -227,7 +227,7 @@ abstract class Schema<T> {
         if (value.isEmpty) {
           return const ListSchema(itemsByIndex: []);
         }
-        var itemSchemas = <Schema>[];
+        var /*!*/ itemSchemas = <Schema> /*!*/ [] /*!*/;
         var noNonNull = true;
         for (var item in value) {
           final schema =

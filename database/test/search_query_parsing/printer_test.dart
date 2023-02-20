@@ -55,7 +55,7 @@ void main() {
 
     test('ListFilter', () {
       expect(
-        ListFilter(items: KeywordFilter('a')).toString(),
+        ListFilter(item: KeywordFilter('a')).toString(),
         'a',
       );
     });

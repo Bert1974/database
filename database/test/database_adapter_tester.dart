@@ -23,7 +23,7 @@ void runCollectionAndDocumentTests() {
   Collection collection;
   final inserted = <Document>[];
 
-  Future<Document> insert({Map<String, Object> data}) async {
+  Future<Document /*!*/ > insert({Map<String, Object> data}) async {
     final document = await collection.insert(data: data);
     inserted.add(document);
     return document;
@@ -38,7 +38,7 @@ void runCollectionAndDocumentTests() {
       return;
     }
     collection = database.collection('exampleCollection');
-    await collection.searchAndDelete();
+    await collection.searchAndDelete().last;
     await _waitAfterWrite();
 
     addTearDown(() async {
@@ -1013,7 +1013,7 @@ void runSqlTests() {
   });
 
   tearDownAll(() async {
-    await database?.adapter?.close();
+    await database?.adapter.close();
   });
 
   test('a simple example', () async {
@@ -1021,7 +1021,7 @@ void runSqlTests() {
       return;
     }
 
-    final sqlClient = await database.sqlClient;
+    final sqlClient = /*await*/ database.sqlClient;
 
     //
     // Create table

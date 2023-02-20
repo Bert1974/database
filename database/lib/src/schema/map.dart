@@ -75,7 +75,7 @@ class MapSchema extends Schema<Map<String, Object>> {
     }
     stack ??= [];
     if (argument is Map) {
-      final properties = this.properties ?? <String, Schema>{};
+      final properties = this.properties;
       final additionalValues = this.additionalValues;
       for (var key in argument.keys) {
         stack.add(key);
@@ -178,7 +178,7 @@ class MapSchema extends Schema<Map<String, Object>> {
     if (argument == null) {
       return null;
     } else if (argument is Map) {
-      final properties = this.properties ?? const <String, Schema>{};
+      final properties = this.properties;
       final additionalValues = this.additionalValues;
       final result = <String, Object>{};
       for (var entry in argument.entries) {

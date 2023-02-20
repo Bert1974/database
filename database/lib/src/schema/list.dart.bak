@@ -159,7 +159,7 @@ class ListSchema extends Schema {
     }
     if (argument is List) {
       final itemSchema = items;
-      final result = []..length = argument.length;
+      final result = List(argument.length);
       for (var i = 0; i < argument.length; i++) {
         final oldItem = argument[i];
         final newItem =

@@ -145,9 +145,9 @@ void main() {
 
   group('ListFilter', () {
     test('"hashCode" / "=="', () {
-      final filter = ListFilter(items: KeywordFilter('a'));
-      final clone = ListFilter(items: KeywordFilter('a'));
-      final other = ListFilter(items: KeywordFilter('b'));
+      final filter = ListFilter(item: KeywordFilter('a'));
+      final clone = ListFilter(item: KeywordFilter('a'));
+      final other = ListFilter(item: KeywordFilter('b'));
       expect(filter, clone);
       expect(filter, isNot(other));
       expect(filter.hashCode, clone.hashCode);

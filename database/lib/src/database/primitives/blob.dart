@@ -61,7 +61,7 @@ abstract class Blob {
         return chunks.single;
       default:
         final length = chunks.fold(0, (n, list) => n + list.length);
-        final result = List<int>(length);
+        final result = <int>[]..length = length;
         var i = 0;
         for (var chunk in chunks) {
           result.setAll(i, chunk);
@@ -113,7 +113,7 @@ class BlobMetadata {
 }
 
 /// An exception thrown by [Blob].
-class BlobReadException implements Exception {
+/*class BlobReadException implements Exception {
   final Blob /*!*/ blob;
   final String /*!*/ message;
   final Object error;
@@ -122,7 +122,7 @@ class BlobReadException implements Exception {
 
   @override
   String toString() => 'Reading blob failed: ${message ?? error}';
-}
+}*/
 
 class _BytesBlob extends Blob {
   final List<int> _data;

@@ -15,7 +15,6 @@
 import 'package:database/database.dart';
 import 'package:database/database_adapter.dart';
 import 'package:database/schema.dart';
-import 'package:database/src/database_adapter/requests/schema_read_request.dart';
 import 'package:meta/meta.dart';
 
 /// Enforces schema validation on writes.

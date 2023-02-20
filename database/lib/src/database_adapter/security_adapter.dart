@@ -68,7 +68,7 @@ class SecurityAdapter extends DelegatingDatabaseAdapter {
   FutureOr<QueryResult> transformQueryResult(
       Request request, QueryResult result) async {
     final oldItems = result.items;
-    final newItems = List<QueryResultItem>(oldItems.length);
+    final newItems = <QueryResultItem>[]..length = oldItems.length;
     for (var i = 0; i < newItems.length; i++) {
       final oldItem = oldItems[i];
       newItems[i] = QueryResultItem(

@@ -26,20 +26,20 @@ import 'package:database/filter.dart';
 /// });
 /// ```
 class ListFilter extends Filter {
-  final Filter /*!*/ items;
+  final Filter /*!*/ item;
 
-  const ListFilter({this.items});
+  const ListFilter({this.item});
 
   @override
   Iterable<Filter> get children sync* {
-    yield (items);
+    yield (item);
   }
 
   @override
-  int get hashCode => items.hashCode;
+  int get hashCode => item.hashCode;
 
   @override
-  bool operator ==(other) => other is ListFilter && items == other.items;
+  bool operator ==(other) => other is ListFilter && item == other.item;
 
   @override
   T accept<T, C>(FilterVisitor<T, C> visitor, C context) {

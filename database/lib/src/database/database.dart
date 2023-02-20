@@ -55,7 +55,7 @@ abstract class Database {
   final _collections = <String, Collection>{};
 
   /// Lazily created SqlClient.
-  SqlClient _sqlClient;
+  SqlClient /*?*/ _sqlClient;
 
   Database();
 

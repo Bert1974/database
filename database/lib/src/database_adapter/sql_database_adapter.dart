@@ -26,7 +26,8 @@ abstract class SqlDatabaseAdapter extends DatabaseAdapter {
   final _lockWaiters = Queue<Completer<void>>();
 
   @override
-  Future<void> performDocumentBatch(DocumentBatchRequest request) {
+  Future<DocumentBatchResponse> performDocumentBatch(
+      DocumentBatchRequest request) {
     throw UnimplementedError();
   }
 

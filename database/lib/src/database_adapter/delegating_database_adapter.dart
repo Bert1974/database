@@ -16,7 +16,6 @@ import 'package:database/database.dart';
 import 'package:database/database_adapter.dart';
 import 'package:database/schema.dart';
 import 'package:database/sql.dart';
-import 'package:database/src/database_adapter/requests/schema_read_request.dart';
 
 /// Superclass for delegating database adapters.
 class DelegatingDatabaseAdapter implements DatabaseAdapter {
@@ -40,7 +39,8 @@ class DelegatingDatabaseAdapter implements DatabaseAdapter {
   }
 
   @override
-  Future<void> performDocumentBatch(DocumentBatchRequest request) {
+  Future<DocumentBatchResponse> performDocumentBatch(
+      DocumentBatchRequest request) {
     return request.delegateTo(_adapter);
   }
 

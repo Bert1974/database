@@ -40,7 +40,8 @@ abstract class SqlIterator {
   /// batch-returning function.
   factory SqlIterator.fromFunction({
     @required List<SqlColumnDescription> columnDescriptions,
-    @required Future<List<List>> Function({int length}) onNextRowBatch,
+    @required
+        Future<List<List> /*?*/ > Function({int /*?*/ length}) onNextRowBatch,
   }) = _SqlQueryResultWithFunction;
 
   factory SqlIterator.fromLists({
@@ -48,20 +49,20 @@ abstract class SqlIterator {
     @required List<List> rows,
   }) {
     if (rows.isEmpty) {
-      rows = null;
+      rows = [];
     }
     var i = 0;
     return SqlIterator.fromFunction(
       columnDescriptions: columnDescriptions,
-      onNextRowBatch: ({int length}) async {
-        if (rows == null) {
+      onNextRowBatch: ({int /*?*/ length}) async {
+        if (rows.isEmpty) {
           return null;
         }
         final result = rows.sublist(i);
         i += result.length;
         if (i >= rows.length) {
           // Help garbage collector
-          rows = null;
+          rows = [];
         }
         return result;
       },
@@ -100,7 +101,7 @@ abstract class SqlIterator {
 
   /// Descriptions of columns. Must be non-null and the length must be equal to
   /// the length of every rows.
-  List<SqlColumnDescription> get columnDescriptions;
+  List<SqlColumnDescription /*?*/ > /*!*/ get columnDescriptions;
 
   /// Reads the next row as a map. If there are no more rows, returns null.
   Map<String, Object> asMap() {
@@ -256,7 +257,7 @@ class _SqlQueryResultWithFunction extends SqlIterator {
   @override
   final List<SqlColumnDescription> columnDescriptions;
 
-  final Future<List<List>> Function({int length}) onNextRowBatch;
+  final Future<List<List> /*?*/ > Function({int /*?*/ length}) onNextRowBatch;
 
   _SqlQueryResultWithFunction({
     this.columnDescriptions,
