@@ -48,7 +48,7 @@ abstract class Blob {
   /// The callback receives an instance [BlobMetadata], which may contain
   /// metadata about the blob. For example, HTTP header often contains MIME type
   /// and length.
-  Future<List<int>> readAsBytes({
+  Future<List<int /*!*/ >> readAsBytes({
     void Function(BlobMetadata metadata) onBlobMetadata,
   }) async {
     final chunks = await read(
@@ -56,7 +56,7 @@ abstract class Blob {
     ).toList();
     switch (chunks.length) {
       case 0:
-        return List<int>(0);
+        return [];
       case 1:
         return chunks.single;
       default:
@@ -114,8 +114,8 @@ class BlobMetadata {
 
 /// An exception thrown by [Blob].
 class BlobReadException implements Exception {
-  final Blob blob;
-  final String message;
+  final Blob /*!*/ blob;
+  final String /*!*/ message;
   final Object error;
 
   BlobReadException({this.blob, this.message, this.error});
@@ -155,7 +155,7 @@ class _StringBlob extends Blob {
   }
 
   @override
-  Future<List<int>> readAsBytes({
+  Future<List<int /*!*/ >> readAsBytes({
     void Function(BlobMetadata metadata) onBlobMetadata,
   }) async {
     return utf8.encode(_data);

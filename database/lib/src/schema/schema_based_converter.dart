@@ -25,7 +25,8 @@ import 'package:database/schema.dart';
 /// The default implementations check that the argument matches the schema.
 /// The methods methods [visitListSchema] and [visitMapSchema] also convert
 /// child nodes and return an immutable List/Map.
-class SchemaBasedConverterBase extends SchemaVisitor<Object, Object> {
+class SchemaBasedConverterBase
+    extends SchemaVisitor<Object /*?*/, Object /*?*/ > {
   const SchemaBasedConverterBase();
 
   @override

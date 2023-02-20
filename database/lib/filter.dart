@@ -39,7 +39,6 @@ export 'src/filter/list.dart';
 export 'src/filter/logical.dart';
 export 'src/filter/map.dart';
 export 'src/filter/range.dart';
-export 'src/filter/range.dart';
 export 'src/filter/reg_exp.dart';
 export 'src/filter/sql.dart';
 export 'src/filter/value.dart';

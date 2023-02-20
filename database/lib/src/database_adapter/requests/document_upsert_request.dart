@@ -22,7 +22,7 @@ import 'package:meta/meta.dart';
 class DocumentUpsertRequest extends Request<Future<void>> {
   final Transaction transaction;
   final Document document;
-  final Map<String, Object> data;
+  final Map<String, Object> /*!*/ data;
   final Reach reach;
   Schema inputSchema;
 

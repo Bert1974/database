@@ -26,7 +26,7 @@ import 'package:database/filter.dart';
 /// });
 /// ```
 class ListFilter extends Filter {
-  final Filter items;
+  final Filter /*!*/ items;
 
   const ListFilter({this.items});
 

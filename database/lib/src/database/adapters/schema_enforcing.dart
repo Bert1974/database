@@ -70,7 +70,7 @@ import 'package:meta/meta.dart';
 /// }
 /// ```
 class SchemaEnforcingDatabaseAdapter extends DelegatingDatabaseAdapter {
-  final DatabaseSchema databaseSchema;
+  final DatabaseSchema /*?*/ databaseSchema;
 
   SchemaEnforcingDatabaseAdapter({
     @required DatabaseAdapter adapter,
@@ -142,10 +142,10 @@ class SchemaEnforcingDatabaseAdapter extends DelegatingDatabaseAdapter {
   }
 
   @override
-  Stream<DatabaseSchema> performSchemaRead(SchemaReadRequest request) {
+  Stream<DatabaseSchema /*!*/ > performSchemaRead(SchemaReadRequest request) {
     if (databaseSchema == null) {
       return super.performSchemaRead(request);
     }
-    return Stream<DatabaseSchema>.value(databaseSchema);
+    return Stream<DatabaseSchema /*!*/ >.value(databaseSchema);
   }
 }

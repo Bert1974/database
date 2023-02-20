@@ -20,10 +20,10 @@ import 'package:meta/meta.dart';
 @sealed
 class DocumentUpdateRequest extends Request<Future<void>> {
   final Transaction transaction;
-  final Document document;
-  final Map<String, Object> data;
-  final bool isPatch;
-  final Reach reach;
+  final Document /*!*/ document;
+  final Map<String, Object> /*!*/ data;
+  final bool /*!*/ isPatch;
+  final Reach /*!*/ reach;
   Schema inputSchema;
 
   DocumentUpdateRequest({
