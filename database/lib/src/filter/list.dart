@@ -27,6 +27,7 @@ import 'package:database/filter.dart';
 /// ```
 class ListFilter extends Filter {
   final Filter /*!*/ item;
+
   const ListFilter({this.item});
 
   @override

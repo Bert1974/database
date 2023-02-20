@@ -50,7 +50,7 @@ class _ColumnQueryHelper<T> extends Column<T /*!*/ > with ColumnQueryHelper<T> {
   final String _propertyName;
   final bool Function(T /*!*/ value) /*?*/ _where;
   final bool /*?*/ _isAscending;
-  final int /*?*/ _skip;
+  final int /*!*/ _skip;
   final int /*?*/ _take;
 
   _ColumnQueryHelper(
@@ -58,7 +58,7 @@ class _ColumnQueryHelper<T> extends Column<T /*!*/ > with ColumnQueryHelper<T> {
     this._propertyName, [
     this._where,
     this._isAscending,
-    this._skip,
+    this._skip = 0,
     this._take,
   ]);
 
@@ -66,9 +66,9 @@ class _ColumnQueryHelper<T> extends Column<T /*!*/ > with ColumnQueryHelper<T> {
       : this(
           collection,
           propertyName,
+          /*  null,
           null,
-          null,
-          null,
+          null,*/
         );
 
   @override
@@ -105,7 +105,7 @@ class _ColumnQueryHelper<T> extends Column<T /*!*/ > with ColumnQueryHelper<T> {
       _propertyName,
       _where,
       _isAscending,
-      (_skip ?? 0) + n,
+      _skip + n,
       _take,
     );
   }
@@ -143,16 +143,15 @@ class _ColumnQueryHelper<T> extends Column<T /*!*/ > with ColumnQueryHelper<T> {
       }
       return;
     }
-    var skip = _skip ?? 0;
-    var take = _take ?? 0;
+    var skip = _skip;
+    var take = _take;
     if (take == 0) {
       return;
     }
     await for (var chunk in collection.searchChunked()) {
       for (var item in chunk.snapshots) {
         final value = item.data[_propertyName];
-        final where = _where;
-        if (where != null && !where(value /*!*/)) {
+        if (_where != null && !_where(value)) {
           continue;
         }
         if (skip > 0) {
@@ -173,7 +172,12 @@ class _ColumnQueryHelper<T> extends Column<T /*!*/ > with ColumnQueryHelper<T> {
   ColumnQueryHelper<T> where(bool Function(T /*!*/) func) {
     //todo fix
     final oldFunc = _where;
-    final newFunc = (value) => oldFunc(value) && func(value);
+    bool Function(T /*!*/) /*late*/ newFunc;
+    if (oldFunc != null) {
+      newFunc = (value) => oldFunc(value) && func(value);
+    } else {
+      newFunc = oldFunc;
+    }
     return _ColumnQueryHelper(
       collection,
       _propertyName,
