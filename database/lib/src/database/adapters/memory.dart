@@ -212,6 +212,6 @@ class _Key {
 }
 
 class _Value {
-  final Map<String, Object> data;
+  final Map<String, Object> /*!*/ data;
   _Value(this.data);
 }

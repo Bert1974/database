@@ -44,14 +44,14 @@ abstract class ColumnQueryHelper<T> {
   ColumnQueryHelper<T> whereEqual(T value) => where((item) => item == value);
 }
 
-class _ColumnQueryHelper<T> extends Column<T> with ColumnQueryHelper<T> {
+class _ColumnQueryHelper<T> extends Column<T /*!*/ > with ColumnQueryHelper<T> {
   @override
   final Collection collection;
   final String _propertyName;
-  final bool Function(T value) _where;
-  final bool _isAscending;
-  final int _skip;
-  final int _take;
+  final bool Function(T /*!*/ value) /*?*/ _where;
+  final bool /*?*/ _isAscending;
+  final int /*?*/ _skip;
+  final int /*?*/ _take;
 
   _ColumnQueryHelper(
     this.collection,
@@ -105,7 +105,7 @@ class _ColumnQueryHelper<T> extends Column<T> with ColumnQueryHelper<T> {
       _propertyName,
       _where,
       _isAscending,
-      _skip + n,
+      (_skip ?? 0) + n,
       _take,
     );
   }
@@ -152,7 +152,7 @@ class _ColumnQueryHelper<T> extends Column<T> with ColumnQueryHelper<T> {
       for (var item in chunk.snapshots) {
         final value = item.data[_propertyName];
         final where = _where;
-        if (where != null && !where(value)) {
+        if (where != null && !where(value /*!*/)) {
           continue;
         }
         if (skip > 0) {
@@ -169,7 +169,8 @@ class _ColumnQueryHelper<T> extends Column<T> with ColumnQueryHelper<T> {
   }
 
   @override
-  ColumnQueryHelper<T> where(bool Function(T) func) {
+  ColumnQueryHelper<T> where(bool Function(T /*!*/) func) {
+    //todo fix
     final oldFunc = _where;
     final newFunc = (value) => oldFunc(value) && func(value);
     return _ColumnQueryHelper(

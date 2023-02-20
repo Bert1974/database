@@ -35,7 +35,7 @@ import 'package:database/filter.dart';
 /// );
 /// ```
 class AndFilter extends Filter {
-  final List<Filter> filters;
+  final List<Filter /*!*/ > filters;
   final bool isImplicit;
 
   AndFilter(this.filters, {this.isImplicit = true})
@@ -152,7 +152,7 @@ class NotFilter extends Filter {
 /// );
 /// ```
 class OrFilter extends Filter {
-  final List<Filter> filters;
+  final List<Filter /*!*/ > filters;
 
   OrFilter(this.filters) : assert(filters != null);
 

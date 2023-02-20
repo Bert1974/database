@@ -80,7 +80,7 @@ class QueryResult {
 
   /// Return items. Unlike [snapshots], this contains for additional data such
   /// as snippets.
-  List<QueryResultItem> get items {
+  List<QueryResultItem> /*!*/ get items {
     _items ??= List<QueryResultItem>.unmodifiable(
       snapshots.map((snapshot) => QueryResultItem(snapshot: snapshot)),
     );
@@ -88,7 +88,7 @@ class QueryResult {
   }
 
   /// Returned document snapshots.
-  List<Snapshot> get snapshots {
+  List<Snapshot> /*!*/ get snapshots {
     _snapshots ??= List.unmodifiable(items.map((item) => item.snapshot));
     return _snapshots;
   }

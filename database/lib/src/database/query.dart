@@ -105,7 +105,7 @@ class Query {
   /// Optional parameter [documentScoringAlgorithm] can be used to replace the
   /// default document scoring algorithm.
   List<Snapshot> documentListFromIterable(
-    Iterable<Snapshot> iterable, {
+    Iterable<Snapshot /*!*/ > iterable, {
     DocumentScoring documentScoring,
   }) {
     final filter = this.filter;
@@ -313,7 +313,7 @@ class Query {
   /// );
   /// ```
   static Query parse(
-    String source, {
+    String /*required*/ source, {
     Sorter sorter,
     int skip = 0,
     int take,

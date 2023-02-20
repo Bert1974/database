@@ -15,6 +15,7 @@
 import 'package:database/database.dart';
 import 'package:database/database_adapter.dart';
 import 'package:database/schema.dart';
+import 'package:universal_io/io.dart';
 
 /// Describes an vendor-specific operation that [DatabaseAdapter] should
 /// perform. The response is a stream of [DatabaseExtensionResponse] objects.
@@ -22,8 +23,9 @@ class SchemaReadRequest extends Request<Stream<DatabaseSchema>> {
   final Database database;
   final Collection collection;
 
-  SchemaReadRequest.forCollection(this.collection)
-      : database = collection.database;
+  SchemaReadRequest.forCollection(Collection collection)
+      : database = collection.database,
+        collection = collection;
 
   SchemaReadRequest.forDatabase(this.database) : collection = null;
 

@@ -27,7 +27,7 @@ import 'package:database/filter.dart';
 /// });
 /// ```
 class MapFilter extends Filter {
-  final Map<String, Filter> properties;
+  final Map<String, Filter /*!*/ > /*!*/ properties;
 
   MapFilter(this.properties) {
     ArgumentError.checkNotNull(properties, 'properties');
