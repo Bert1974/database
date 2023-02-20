@@ -27,7 +27,7 @@ import 'package:firebase/firebase.dart' as firebase;
 import 'package:firebase/firestore.dart' as firestore;
 import 'package:meta/meta.dart';
 
-Object _valueFromFirestore(Database database, Object argument) {
+Object _valueFromFirestore(Database database, Object /*?*/ argument) {
   if (argument == null ||
       argument is bool ||
       argument is num ||
@@ -61,7 +61,7 @@ Object _valueFromFirestore(Database database, Object argument) {
   throw ArgumentError.value(argument);
 }
 
-Object _valueToFirestore(firestore.Firestore impl, Object argument) {
+Object _valueToFirestore(firestore.Firestore impl, Object /*?*/ argument) {
   if (argument == null ||
       argument is bool ||
       argument is num ||
