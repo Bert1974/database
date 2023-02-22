@@ -138,7 +138,7 @@ class _DocumentSerializer extends PrimitiveSerializer<Document> {
   String get wireName => 'document';
 
   @override
-  Document /*?*/ deserialize(Serializers serializers, Object serialized,
+  Document deserialize(Serializers serializers, Object serialized,
       {FullType specifiedType = FullType.unspecified}) {
     if (serialized == null) {
       return null;
