@@ -113,7 +113,7 @@ class _DateSerializer extends PrimitiveSerializer<Date> {
   String get wireName => 'date';
 
   @override
-  Date deserialize(Serializers serializers, Object serialized,
+  Date /*?*/ deserialize(Serializers serializers, Object /*?*/ serialized,
       {FullType specifiedType = FullType.unspecified}) {
     if (serialized is String) {
       return Date.parse(serialized);
@@ -122,9 +122,9 @@ class _DateSerializer extends PrimitiveSerializer<Date> {
   }
 
   @override
-  Object serialize(Serializers serializers, Date object,
+  Object /*?*/ serialize(Serializers serializers, Date /*?*/ object,
       {FullType specifiedType = FullType.unspecified}) {
-    return object.toString();
+    return object?.toString();
   }
 }
 
@@ -138,7 +138,7 @@ class _DocumentSerializer extends PrimitiveSerializer<Document> {
   String get wireName => 'document';
 
   @override
-  Document deserialize(Serializers serializers, Object serialized,
+  Document /*?*/ deserialize(Serializers serializers, Object serialized,
       {FullType specifiedType = FullType.unspecified}) {
     if (serialized == null) {
       return null;
@@ -147,7 +147,7 @@ class _DocumentSerializer extends PrimitiveSerializer<Document> {
   }
 
   @override
-  Document serialize(Serializers serializers, Document object,
+  Document /*?*/ serialize(Serializers serializers, Document /*?*/ object,
       {FullType specifiedType = FullType.unspecified}) {
     return object;
   }
