@@ -105,7 +105,7 @@ class BuiltValueSerializationConfig extends Mapper {
   }
 }
 
-class _DateSerializer extends PrimitiveSerializer<Date /*?*/ > {
+class _DateSerializer extends PrimitiveSerializer<Date /*!*/ > {
   @override
   Iterable<Type> get types => const [Date];
 
@@ -134,7 +134,7 @@ class _DateSerializer extends PrimitiveSerializer<Date /*?*/ > {
   }
 }
 
-class _DocumentSerializer extends PrimitiveSerializer<Document /*?*/ > {
+class _DocumentSerializer extends PrimitiveSerializer<Document /*!*/ > {
   _DocumentSerializer();
 
   @override
