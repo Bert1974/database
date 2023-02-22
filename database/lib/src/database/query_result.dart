@@ -46,7 +46,7 @@ class QueryResult {
   QueryResult({
     @required this.collection,
     @required this.query,
-    @required List<Snapshot> snapshots,
+    @required List<Snapshot /*?*/ > snapshots,
     this.count,
     this.vendorData,
   })  : assert(collection != null),
