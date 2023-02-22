@@ -33,7 +33,7 @@ abstract class PrimitiveSchema<T> extends Schema<T> {
   }
 
   @override
-  T selectTree(Object /*?*/ argument, {bool ignoreErrors = false}) {
+  T /*?*/ selectTree(Object /*?*/ argument, {bool ignoreErrors = false}) {
     if (argument == null) {
       return null;
     }
@@ -69,15 +69,12 @@ abstract class Schema<T> {
     throw ArgumentError('Invalid tree: /${stack.join('/')}');
   }
 
-  T decodeWith(SchemaBasedConverterBase visitor, Object argument) {
-    final result = acceptVisitor(visitor, argument);
-    if (result == null) {
-      return result;
-    }
-    return result as T;
+  T /*?*/ decodeWith(SchemaBasedConverterBase visitor, Object argument) {
+    final result = acceptVisitor(visitor, argument) as T /* ? */;
+    return result;
   }
 
-  Object encodeWith(SchemaBasedConverterBase visitor, T argument) {
+  Object encodeWith(SchemaBasedConverterBase visitor, T /*?*/ argument) {
     return acceptVisitor(visitor, argument);
   }
 
@@ -91,10 +88,10 @@ abstract class Schema<T> {
   /// Determines whether the argument matches the schema.
   ///
   /// Optional argument [cycleDetectionStack] is used for detecting cycles.
-  bool isValidTree(Object argument, {List cycleDetectionStack});
+  bool isValidTree(Object /*?*/ argument, {List cycleDetectionStack});
 
   /// Select a tree in a graph.
-  T selectTree(Object argument, {bool ignoreErrors = false});
+  T /*?*/ selectTree(Object /*?*/ argument, {bool ignoreErrors = false});
 
   Object toJson();
 

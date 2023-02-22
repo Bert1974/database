@@ -50,7 +50,7 @@ class ArbitraryTreeSchema extends Schema<Object> {
   }
 
   @override
-  bool isValidTree(Object argument, {List cycleDetectionStack}) {
+  bool isValidTree(Object /*?*/ argument, {List cycleDetectionStack}) {
     if (argument is double) {
       return doubleSchema.isValidTree(argument);
     }
@@ -112,7 +112,7 @@ class ArbitraryTreeSchema extends Schema<Object> {
   }
 
   @override
-  Object selectTree(Object argument, {bool ignoreErrors = false}) {
+  Object selectTree(Object /*?*/ argument, {bool ignoreErrors = false}) {
     if (argument == null ||
         argument is bool ||
         argument is num ||

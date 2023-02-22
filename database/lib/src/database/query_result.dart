@@ -28,7 +28,7 @@ class QueryResult {
   /// Query.
   final Query query;
 
-  List<Snapshot> _snapshots;
+  List<Snapshot /*?*/ > /*?*/ _snapshots;
 
   List<QueryResultItem> _items;
 
