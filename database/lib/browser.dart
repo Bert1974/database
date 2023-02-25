@@ -207,7 +207,7 @@ class BrowserLocalStorageDatabase extends DocumentDatabaseAdapter
   }
 
   static Object _decode(Schema schema, Database database, String s) {
-    final json = jsonDecode(s) as Map<String, Object>;
+    final json = jsonDecode(s) as Map<String, dynamic>;
     schema ??= Schema.fromJson(json['schema']) ?? ArbitraryTreeSchema();
     return schema.decodeWith(
       JsonDecoder(database: database),
