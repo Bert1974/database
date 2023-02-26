@@ -429,8 +429,9 @@ class Algolia extends DocumentDatabaseAdapter {
 
   /// Validates that the ID doesn't contain any potentially dangerous
   /// characters.
-  String _validateCollectionId(String s) {
-    if (s.contains('/') ||
+  String _validateCollectionId(String /*?*/ s) {
+    if (s == null ||
+        s.contains('/') ||
         s.contains('%') ||
         s.contains('?') ||
         s.contains('#')) {
@@ -441,8 +442,9 @@ class Algolia extends DocumentDatabaseAdapter {
 
   /// Validates that the ID doesn't contain any potentially dangerous
   /// characters.
-  String _validateDocumentId(String s) {
-    if (s.contains('/') ||
+  String _validateDocumentId(String /*?*/ s) {
+    if (s == null ||
+        s.contains('/') ||
         s.contains('%') ||
         s.contains('?') ||
         s.contains('#')) {
