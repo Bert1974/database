@@ -17,11 +17,12 @@ visit() {
   echo "Running: pub get $ARGS"
   OLD_PATH=`pwd`
   cd $NAME
-  if hash pub; then
-    pub get $ARGS
-  else
+  #todo
+  #if hash pub; then
+  #  pub get $ARGS
+  #else
     flutter pub get $ARGS
-  fi
+  #fi
   cd $OLD_PATH
 }
 
