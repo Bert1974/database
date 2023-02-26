@@ -21,8 +21,9 @@ visit() {
   #if hash pub; then
   #  pub get $ARGS
   #else
-    flutter pub get $ARGS
+  #  flutter pub get $ARGS
   #fi
+  dart pub get
   cd $OLD_PATH
 }
 
