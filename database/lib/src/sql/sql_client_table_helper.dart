@@ -31,7 +31,7 @@ class SqlClientTableHelper extends SqlClientTableSelectionHelper {
           limit: null,
         );
 
-  Future<void> addColumn(String name, SqlType type, {Object defaultValue}) {
+  Future<void> addColumn(String name, SqlType type, {Object? defaultValue}) {
     final b = SqlSourceBuilder();
     b.write('ALTER TABLE ');
     b.identifier(_tableName);
@@ -48,12 +48,12 @@ class SqlClientTableHelper extends SqlClientTableSelectionHelper {
   }
 
   Future<void> addForeignKeyConstraint({
-    @required String constraintName,
-    @required List<String> localColumnNames,
-    @required String foreignTableName,
-    @required List<String> foreignColumnNames,
-    SqlReferenceDeleteAction onDelete,
-    SqlReferenceUpdateAction onUpdate,
+    required String constraintName,
+    required List<String> localColumnNames,
+    required String foreignTableName,
+    required List<String> foreignColumnNames,
+    SqlReferenceDeleteAction? onDelete,
+    SqlReferenceUpdateAction? onUpdate,
   }) {
     final b = SqlSourceBuilder();
     b.write('ALTER TABLE ');
@@ -243,8 +243,8 @@ class SqlClientTableHelper extends SqlClientTableSelectionHelper {
 
   /// Renames a column.
   Future<void> renameColumn({
-    @required String oldName,
-    @required String newName,
+    required String oldName,
+    required String newName,
   }) {
     final b = SqlSourceBuilder();
     b.write('ALTER TABLE ');

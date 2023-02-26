@@ -68,9 +68,9 @@ class MemoryDatabaseAdapter extends DocumentDatabaseAdapter {
   Future<void> performDocumentInsert(DocumentInsertRequest request) async {
     await _wait();
     const ArbitraryTreeSchema().checkTreeIsValid(request.data);
-    final document = request.document ?? request.collection.newDocument();
+    final document = request.document ?? request.collection!.newDocument();
     if (request.onDocument != null) {
-      request.onDocument(document);
+      request.onDocument!(document);
     }
     final key = _keyFromDocument(document);
     if (_values.containsKey(key)) {
@@ -168,7 +168,7 @@ class MemoryDatabaseAdapter extends DocumentDatabaseAdapter {
 
   _Key _keyFromDocument(Document document) {
     final documentId = document.documentId;
-    final collectionId = document.parent.collectionId;
+    final collectionId = document.parent!.collectionId;
     if (collectionId.isEmpty) {
       throw ArgumentError('collectionId must be non-blank');
     }
@@ -212,6 +212,6 @@ class _Key {
 }
 
 class _Value {
-  final Map<String, Object> /*!*/ data;
+  final Map<String, Object?> data;
   _Value(this.data);
 }

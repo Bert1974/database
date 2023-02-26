@@ -23,18 +23,18 @@ part of database.sql;
 class SqlClientTableSelectionHelper {
   final SqlClient _client;
   final String _tableName;
-  final List<SqlStatement> _where;
-  final List<_OrderBy> _orderBy;
-  final int _offset;
-  final int _limit;
+  final List<SqlStatement>? _where;
+  final List<_OrderBy>? _orderBy;
+  final int? _offset;
+  final int? _limit;
 
   SqlClientTableSelectionHelper._(
     this._client,
     this._tableName, {
-    @required List<SqlStatement> where,
-    @required List<_OrderBy> orderBy,
-    @required int offset,
-    @required int limit,
+    required List<SqlStatement>? where,
+    required List<_OrderBy>? orderBy,
+    required int? offset,
+    required int? limit,
   })  : _where = where,
         _orderBy = orderBy,
         _offset = offset,
@@ -109,7 +109,7 @@ class SqlClientTableSelectionHelper {
       where: _where,
       orderBy: _orderBy,
       offset: _offset,
-      limit: (_limit == null || value < _limit) ? value : _limit,
+      limit: (_limit == null || value < _limit!) ? value : _limit,
     );
   }
 
@@ -143,8 +143,8 @@ class SqlClientTableSelectionHelper {
   ///   .toMaps();
   /// ```
   SqlClientTableQueryHelper select({
-    List<String> columnNames,
-    List<SqlColumnEntry> columnEntries,
+    List<String>? columnNames,
+    List<SqlColumnEntry>? columnEntries,
   }) {
     final b = SqlSourceBuilder();
     b.write('SELECT ');
@@ -241,7 +241,7 @@ class SqlClientTableSelectionHelper {
     return _client.query(sqlSource.value, sqlSource.arguments);
   }
 
-  SqlClientTableSelectionHelper whereColumn(String name, {Object equals}) {
+  SqlClientTableSelectionHelper whereColumn(String name, {Object? equals}) {
     final where = List<SqlStatement>.from(_where ?? const <SqlStatement>[]);
     if (equals != null) {
       final b = SqlSourceBuilder();
@@ -279,7 +279,7 @@ class SqlClientTableSelectionHelper {
     );
   }
 
-  SqlClientTableSelectionHelper whereSql(String sql, [List arguments]) {
+  SqlClientTableSelectionHelper whereSql(String sql, [List? arguments]) {
     final where = List<SqlStatement>.from(_where ?? const <SqlStatement>[]);
     where.add(SqlStatement(sql, arguments));
     return SqlClientTableSelectionHelper._(
@@ -295,9 +295,9 @@ class SqlClientTableSelectionHelper {
 
 class SqlColumnEntry {
   final String name;
-  final String table;
-  final String column;
-  final String expression;
+  final String? table;
+  final String? column;
+  final String? expression;
   SqlColumnEntry(this.name, {this.table, this.column, this.expression});
 }
 
@@ -316,5 +316,5 @@ enum SqlReferenceUpdateAction {
 class _OrderBy {
   final String name;
   final bool isDescending;
-  _OrderBy(this.name, {@required this.isDescending});
+  _OrderBy(this.name, {required this.isDescending});
 }

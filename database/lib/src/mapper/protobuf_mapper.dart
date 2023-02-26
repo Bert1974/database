@@ -39,22 +39,22 @@ class ProtobufMapper extends Mapper {
 
   /// If non-null, the mapper will receive the inputs which this mapper can't
   /// handle.
-  final Mapper nextMapper;
+  final Mapper? nextMapper;
 
   const ProtobufMapper({
-    @required this.factoriesByTypeName,
-    @required this.factoriesBySpecifiedType,
-    @required this.throwOnDecodingFailure,
+    required this.factoriesByTypeName,
+    required this.factoriesBySpecifiedType,
+    required this.throwOnDecodingFailure,
     this.nextMapper,
   })  : assert(factoriesByTypeName != null || factoriesBySpecifiedType != null),
         assert(throwOnDecodingFailure != null);
 
   @override
-  Object rawGraphFrom(
-    Object value, {
-    String typeName,
-    FullType specifiedType,
-    MapperEncodeContext context,
+  Object? rawGraphFrom(
+    Object? value, {
+    String? typeName,
+    FullType? specifiedType,
+    MapperEncodeContext? context,
   }) {
     if (value == null) {
       return null;
@@ -76,11 +76,11 @@ class ProtobufMapper extends Mapper {
   }
 
   @override
-  Object rawGraphTo(
-    Object value, {
-    String typeName,
-    FullType specifiedType,
-    MapperDecodeContext context,
+  Object? rawGraphTo(
+    Object? value, {
+    String? typeName,
+    FullType? specifiedType,
+    MapperDecodeContext? context,
   }) {
     if (value == null) {
       return null;
@@ -133,7 +133,7 @@ class ProtobufMapper extends Mapper {
       //
       final fieldInfosByName = message.info_.byName;
       for (var fieldName in fieldInfosByName.keys) {
-        final fieldInfo = fieldInfosByName[fieldName];
+        final fieldInfo = fieldInfosByName[fieldName]!;
         message.setField(
           fieldInfo.tagNumber,
           _dartFromPb(value, fieldInfo),
@@ -185,11 +185,11 @@ class ProtobufMapper extends Mapper {
   }
 
   /// Converts Dart value to a Protocol Buffers value.
-  Object _dartToPb(Object value, pb.FieldInfo fieldInfo) {
+  Object _dartToPb(Object value, pb.FieldInfo? fieldInfo) {
     if (value == null) {
-      return fieldInfo.readonlyDefault;
+      return fieldInfo!.readonlyDefault;
     }
-    final type = (fieldInfo.type >> 4) << 4;
+    final type = (fieldInfo!.type >> 4) << 4;
     if (value is bool) {
       if (type == _bitForBool) {
         return value;
@@ -202,7 +202,7 @@ class ProtobufMapper extends Mapper {
       }
     } else if (value is DateTime) {
       if (fieldInfo.isGroupOrMessage) {
-        final message = fieldInfo.subBuilder();
+        final message = fieldInfo.subBuilder!();
         Object messageObject = message;
         if (messageObject is pb.TimestampMixin) {
           pb.TimestampMixin.setFromDateTime(messageObject, value);
@@ -227,7 +227,7 @@ class ProtobufMapper extends Mapper {
     );
   }
 
-  pb.GeneratedMessage _newMessage({String typeName, FullType specifiedType}) {
+  pb.GeneratedMessage? _newMessage({String? typeName, FullType? specifiedType}) {
     if (specifiedType != null) {
       if (factoriesBySpecifiedType != null) {
         final f = factoriesBySpecifiedType[specifiedType];

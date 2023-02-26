@@ -27,7 +27,7 @@ import 'package:firebase/firebase.dart' as firebase;
 import 'package:firebase/firestore.dart' as firestore;
 import 'package:meta/meta.dart';
 
-Object _valueFromFirestore(Database database, Object /*?*/ argument) {
+Object? _valueFromFirestore(Database database, Object? argument) {
   if (argument == null ||
       argument is bool ||
       argument is num ||
@@ -36,7 +36,7 @@ Object _valueFromFirestore(Database database, Object /*?*/ argument) {
     return argument;
   }
   if (argument is firestore.GeoPoint) {
-    return GeoPoint(argument.latitude, argument.longitude);
+    return GeoPoint(argument.latitude as double, argument.longitude as double);
   }
   if (argument is firestore.DocumentReference) {
     if (argument.parent.parent != null) {
@@ -52,7 +52,7 @@ Object _valueFromFirestore(Database database, Object /*?*/ argument) {
     );
   }
   if (argument is Map) {
-    final result = <String, Object>{};
+    final result = <String, Object?>{};
     for (var entry in argument.entries) {
       result[entry.key as String] = _valueFromFirestore(database, entry.value);
     }
@@ -61,7 +61,7 @@ Object _valueFromFirestore(Database database, Object /*?*/ argument) {
   throw ArgumentError.value(argument);
 }
 
-Object _valueToFirestore(firestore.Firestore impl, Object /*?*/ argument) {
+Object? _valueToFirestore(firestore.Firestore impl, Object? argument) {
   if (argument == null ||
       argument is bool ||
       argument is num ||
@@ -83,7 +83,7 @@ Object _valueToFirestore(firestore.Firestore impl, Object /*?*/ argument) {
     return firestore.GeoPoint(argument.latitude, argument.longitude);
   }
   if (argument is Document) {
-    final collectionId = argument.parent.collectionId;
+    final collectionId = argument.parent!.collectionId;
     final documentId = argument.documentId;
     return impl.collection(collectionId).doc(documentId);
   }
@@ -91,7 +91,7 @@ Object _valueToFirestore(firestore.Firestore impl, Object /*?*/ argument) {
     return argument.map((item) => _valueToFirestore(impl, item)).toList();
   }
   if (argument is Map) {
-    final result = <String, Object>{};
+    final result = <String, Object?>{};
     for (var entry in argument.entries) {
       result[entry.key] = _valueToFirestore(impl, entry.value);
     }
@@ -109,16 +109,16 @@ class FirestoreBrowser extends DocumentDatabaseAdapter {
   /// Parameters [appId] and [apiKey] can be null, but usually you need
   /// non-null values.
   factory FirestoreBrowser({
-    @required String appId,
+    required String appId,
   }) {
     return FirestoreBrowser.withImpl(firebase.app(appId).firestore());
   }
 
   /// Initializes a new adapter configuration.
   factory FirestoreBrowser.initialize({
-    @required String appId,
-    @required String apiKey,
-    String projectId,
+    required String appId,
+    required String apiKey,
+    String? projectId,
   }) {
     final app = firebase.initializeApp(
       appId: appId,
@@ -133,12 +133,12 @@ class FirestoreBrowser extends DocumentDatabaseAdapter {
   @override
   Future<void> performDocumentDelete(DocumentDeleteRequest request) async {
     final document = request.document;
-    final collection = document.parent;
+    final collection = document.parent!;
     final implCollection = _impl.collection(collection.collectionId);
     final implDocument = implCollection.doc(document.documentId);
 
     if (request.mustExist) {
-      bool didFail;
+      late bool didFail;
       await _impl.runTransaction((transaction) async {
         final implSnapshot = await transaction.get(implDocument);
         if (!implSnapshot.exists) {
@@ -160,7 +160,7 @@ class FirestoreBrowser extends DocumentDatabaseAdapter {
   @override
   Stream<Snapshot> performDocumentRead(DocumentReadRequest request) async* {
     final document = request.document;
-    final collection = document.parent;
+    final collection = document.parent!;
     final implCollection = _impl.collection(collection.collectionId);
     final implDocument = implCollection.doc(document.documentId);
     final implSnapshot = await implDocument.get();
@@ -181,7 +181,7 @@ class FirestoreBrowser extends DocumentDatabaseAdapter {
     }
     yield (Snapshot(
       document: document,
-      data: value,
+      data: value as Map<String, Object?>?,
     ));
   }
 
@@ -266,7 +266,7 @@ class FirestoreBrowser extends DocumentDatabaseAdapter {
       }
       return Snapshot(
         document: document,
-        data: value,
+        data: value as Map<String, Object?>?,
       );
     });
     final queryResult = QueryResult(
@@ -280,16 +280,16 @@ class FirestoreBrowser extends DocumentDatabaseAdapter {
   @override
   Future<void> performDocumentUpsert(DocumentUpsertRequest request) async {
     final document = request.document;
-    final collection = document.parent;
+    final collection = document.parent!;
     final implCollection = _impl.collection(collection.collectionId);
     final implDocument = implCollection.doc(document.documentId);
-    final implData = _valueToFirestore(_impl, request.data);
+    final implData = _valueToFirestore(_impl, request.data)!;
 
-    await implDocument.set(implData);
+    await implDocument.set(implData as Map<String, dynamic>);
   }
 
   firestore.Query _handleFilter(
-      firestore.Query q, String propertyName, Filter filter) {
+      firestore.Query q, String? propertyName, Filter? filter) {
     if (filter == null) {
       return q;
     } else if (filter is AndFilter) {
@@ -302,7 +302,7 @@ class FirestoreBrowser extends DocumentDatabaseAdapter {
         throw UnsupportedError('Nested properties');
       }
       for (var entry in filter.properties.entries) {
-        q = _handleFilter(q, entry.key, _valueToFirestore(_impl, entry.value));
+        q = _handleFilter(q, entry.key, _valueToFirestore(_impl, entry.value) as Filter?);
       }
       return q;
     } else if (filter is ValueFilter) {

@@ -14,8 +14,8 @@ void main() async {
 
   // Print results
   for (var snapshot in response.snapshots) {
-    print('Employee ID: ${snapshot.document.documentId}');
-    print('Employee name: ${snapshot.data['name']}');
+    print('Employee ID: ${snapshot!.document.documentId}');
+    print('Employee name: ${snapshot.data!['name']}');
     print('');
   }
 }

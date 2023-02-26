@@ -24,7 +24,7 @@ import 'package:meta/meta.dart';
 class BytesSchema extends PrimitiveSchema<Uint8List> {
   static const String nameForJson = 'bytes';
 
-  final int maxLength;
+  final int? maxLength;
 
   const BytesSchema({this.maxLength});
 

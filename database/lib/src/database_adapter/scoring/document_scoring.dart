@@ -27,7 +27,7 @@ class DocumentScoring {
   /// a single query.
   ///
   /// The default implementation returns [DocumentScoringStateBase].
-  DocumentScoringState newState(Filter filter) {
+  DocumentScoringState newState(Filter? filter) {
     return DocumentScoringStateBase(filter);
   }
 
@@ -45,5 +45,5 @@ class DocumentScoring {
 abstract class DocumentScoringState {
   /// Returns a positive number if the document snapshot matches the filter.
   /// Otherwise returns 0.0.
-  double evaluateSnapshot(Snapshot snapshot);
+  double evaluateSnapshot(Snapshot? snapshot);
 }

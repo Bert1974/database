@@ -35,9 +35,9 @@ import 'package:meta/meta.dart';
 @sealed
 class ListSchema extends Schema {
   static const String nameForJson = 'list';
-  final Schema items;
-  final List<Schema> itemsByIndex;
-  final int maxLength;
+  final Schema? items;
+  final List<Schema?>? itemsByIndex;
+  final int? maxLength;
 
   const ListSchema({
     this.items,
@@ -50,7 +50,7 @@ class ListSchema extends Schema {
       (ListSchema).hashCode ^
       maxLength.hashCode ^
       items.hashCode ^
-      const ListEquality<Schema>().hash(itemsByIndex);
+      const ListEquality<Schema?>().hash(itemsByIndex);
 
   @override
   String get name => nameForJson;
@@ -60,7 +60,7 @@ class ListSchema extends Schema {
       other is ListSchema &&
       maxLength == other.maxLength &&
       items == other.items &&
-      const ListEquality<Schema>().equals(itemsByIndex, other.itemsByIndex);
+      const ListEquality<Schema?>().equals(itemsByIndex, other.itemsByIndex);
 
   @override
   R acceptVisitor<R, C>(SchemaVisitor<R, C> visitor, C context) {
@@ -68,14 +68,14 @@ class ListSchema extends Schema {
   }
 
   @override
-  void checkTreeIsValid(Object argument, {List<Object> stack}) {
+  void checkTreeIsValid(Object? argument, {List<Object>? stack}) {
     if (isValidTree(argument)) {
       return;
     }
     if (argument is List) {
-      if (maxLength != null && argument.length > maxLength) {
+      if (maxLength != null && argument.length > maxLength!) {
         throw StateError(
-          'List has ${argument.length} items, which exceeds maximum $maxLength: /${stack.join('/')}',
+          'List has ${argument.length} items, which exceeds maximum $maxLength: /${stack!.join('/')}',
         );
       }
       final itemsSchema = items;
@@ -100,7 +100,7 @@ class ListSchema extends Schema {
   }
 
   @override
-  bool isValidSchema({List cycleDetectionStack}) {
+  bool isValidSchema({List? cycleDetectionStack}) {
     if (cycleDetectionStack != null) {
       for (var ancestor in cycleDetectionStack) {
         if (identical(ancestor, this)) {
@@ -121,7 +121,7 @@ class ListSchema extends Schema {
   }
 
   @override
-  bool isValidTree(Object argument, {List cycleDetectionStack}) {
+  bool isValidTree(Object? argument, {List? cycleDetectionStack}) {
     if (argument == null) {
       return true;
     }
@@ -153,7 +153,7 @@ class ListSchema extends Schema {
   }
 
   @override
-  List selectTree(Object argument, {bool ignoreErrors = false}) {
+  List? selectTree(Object? argument, {bool ignoreErrors = false}) {
     if (argument == null) {
       return null;
     }
@@ -163,7 +163,7 @@ class ListSchema extends Schema {
       for (var i = 0; i < argument.length; i++) {
         final oldItem = argument[i];
         final newItem =
-            itemSchema.selectTree(oldItem, ignoreErrors: ignoreErrors);
+            itemSchema!.selectTree(oldItem, ignoreErrors: ignoreErrors);
         result[i] = newItem;
       }
       return List.unmodifiable(result);
@@ -175,12 +175,12 @@ class ListSchema extends Schema {
   }
 
   @override
-  Map<String, Object> toJson() {
-    final json = <String, Object>{
+  Map<String, Object?> toJson() {
+    final json = <String, Object?>{
       '@type': nameForJson,
     };
     if (items != null) {
-      json['@items'] = items.toJson();
+      json['@items'] = items!.toJson();
     }
     if (maxLength != null) {
       json['@maxLength'] = maxLength;

@@ -33,11 +33,11 @@ import 'package:meta/meta.dart';
 /// );
 /// ```
 @sealed
-class MapSchema extends Schema<Map<String, Object>> {
+class MapSchema extends Schema<Map<String, Object?>> {
   static const String nameForJson = 'map';
   final Map<String, Schema> properties;
-  final Set<String> requiredProperties;
-  final Schema additionalValues;
+  final Set<String>? requiredProperties;
+  final Schema? additionalValues;
 
   const MapSchema(
     this.properties, {
@@ -69,7 +69,7 @@ class MapSchema extends Schema<Map<String, Object>> {
   }
 
   @override
-  void checkTreeIsValid(Object argument, {List<Object> stack}) {
+  void checkTreeIsValid(Object? argument, {List<Object>? stack}) {
     if (isValidTree(argument)) {
       return;
     }
@@ -99,7 +99,7 @@ class MapSchema extends Schema<Map<String, Object>> {
   }
 
   @override
-  bool isValidSchema({List cycleDetectionStack}) {
+  bool isValidSchema({List? cycleDetectionStack}) {
     cycleDetectionStack ??= [];
     for (var stackItem in cycleDetectionStack) {
       if (identical(stackItem, this)) {
@@ -128,7 +128,7 @@ class MapSchema extends Schema<Map<String, Object>> {
   }
 
   @override
-  bool isValidTree(Object argument, {List cycleDetectionStack}) {
+  bool isValidTree(Object? argument, {List? cycleDetectionStack}) {
     if (argument == null) {
       return true;
     }
@@ -174,13 +174,13 @@ class MapSchema extends Schema<Map<String, Object>> {
   }
 
   @override
-  Map<String, Object> selectTree(Object argument, {bool ignoreErrors = false}) {
+  Map<String, Object>? selectTree(Object? argument, {bool ignoreErrors = false}) {
     if (argument == null) {
       return null;
     } else if (argument is Map) {
       final properties = this.properties;
       final additionalValues = this.additionalValues;
-      final result = <String, Object>{};
+      final result = <String, Object?>{};
       for (var entry in argument.entries) {
         final key = entry.key;
         final oldValue = entry.value;
@@ -211,7 +211,7 @@ class MapSchema extends Schema<Map<String, Object>> {
     final properties = this.properties;
     if (properties != null && properties.isNotEmpty) {
       for (var entry in properties.entries) {
-        final valueJson = entry.value?.toJson();
+        final valueJson = entry.value.toJson();
         if (valueJson != null) {
           var key = entry.key;
 
@@ -221,7 +221,7 @@ class MapSchema extends Schema<Map<String, Object>> {
           }
 
           // Put
-          json[key] = entry.value?.toJson();
+          json[key] = entry.value.toJson();
         }
       }
     }

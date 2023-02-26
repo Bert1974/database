@@ -26,7 +26,7 @@ class SqlSourceBuilder {
   final List arguments = [];
 
   /// Writes argument marker ('?') and adds the value to the list of arguments.
-  void argument(Object value) {
+  void argument(Object? value) {
     write('?');
     arguments.add(value);
   }
@@ -59,7 +59,7 @@ class SqlSourceBuilder {
   }
 
   /// Write the argument.
-  void write(Object obj) {
+  void write(Object? obj) {
     _sb.write(obj);
   }
 }

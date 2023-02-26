@@ -35,7 +35,7 @@ import 'package:database/filter.dart';
 /// );
 /// ```
 class AndFilter extends Filter {
-  final List<Filter /*!*/ > filters;
+  final List<Filter > filters;
   final bool isImplicit;
 
   AndFilter(this.filters, {this.isImplicit = true})
@@ -63,7 +63,7 @@ class AndFilter extends Filter {
   }
 
   @override
-  Filter simplify() {
+  Filter? simplify() {
     final oldFilters = filters;
     if (oldFilters.isEmpty) {
       return null;
@@ -128,7 +128,7 @@ class NotFilter extends Filter {
     if (identical(newFilter, oldFilter)) {
       return this;
     }
-    return NotFilter(newFilter);
+    return NotFilter(newFilter!);
   }
 }
 
@@ -152,7 +152,7 @@ class NotFilter extends Filter {
 /// );
 /// ```
 class OrFilter extends Filter {
-  final List<Filter /*!*/ > filters;
+  final List<Filter > filters;
 
   OrFilter(this.filters) : assert(filters != null);
 
@@ -175,7 +175,7 @@ class OrFilter extends Filter {
   }
 
   @override
-  Filter simplify() {
+  Filter? simplify() {
     final oldFilters = filters;
     if (oldFilters.isEmpty) {
       return null;

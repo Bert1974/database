@@ -44,14 +44,14 @@ abstract class ColumnQueryHelper<T> {
   ColumnQueryHelper<T> whereEqual(T value) => where((item) => item == value);
 }
 
-class _ColumnQueryHelper<T> extends Column<T /*!*/ > with ColumnQueryHelper<T> {
+class _ColumnQueryHelper<T> extends Column<T > with ColumnQueryHelper<T> {
   @override
   final Collection collection;
   final String _propertyName;
-  final bool Function(T /*!*/ value) /*?*/ _where;
-  final bool /*?*/ _isAscending;
-  final int /*!*/ _skip;
-  final int /*?*/ _take;
+  final bool Function(T value)? _where;
+  final bool? _isAscending;
+  final int _skip;
+  final int? _take;
 
   _ColumnQueryHelper(
     this.collection,
@@ -132,8 +132,8 @@ class _ColumnQueryHelper<T> extends Column<T /*!*/ > with ColumnQueryHelper<T> {
   @override
   Stream<T> toStream() async* {
     if (_isAscending != null) {
-      final list = await toList();
-      if (_isAscending) {
+      final List<T> list = await toList();
+      if (_isAscending!) {
         list.sort();
       } else {
         list.sort();
@@ -150,15 +150,15 @@ class _ColumnQueryHelper<T> extends Column<T /*!*/ > with ColumnQueryHelper<T> {
     }
     await for (var chunk in collection.searchChunked()) {
       for (var item in chunk.snapshots) {
-        final value = item.data[_propertyName];
-        if (_where != null && !_where(value)) {
+        final value = item!.data![_propertyName];
+        if (_where != null && !_where!(value as T)) {
           continue;
         }
         if (skip > 0) {
           skip--;
           continue;
         }
-        yield (value);
+        yield value as T;
         if (_take != null) {
           if (--take == 0) {
             return;
@@ -169,10 +169,10 @@ class _ColumnQueryHelper<T> extends Column<T /*!*/ > with ColumnQueryHelper<T> {
   }
 
   @override
-  ColumnQueryHelper<T> where(bool Function(T /*!*/) func) {
+  ColumnQueryHelper<T> where(bool Function(T) func) {
     //todo fix
     final oldFunc = _where;
-    bool Function(T /*!*/) /*late*/ newFunc;
+    bool Function(T)? /*late*/ newFunc;
     if (oldFunc != null) {
       newFunc = (value) => oldFunc(value) && func(value);
     } else {

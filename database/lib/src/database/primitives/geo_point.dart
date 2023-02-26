@@ -88,7 +88,7 @@ class GeoPoint implements Comparable<GeoPoint> {
     final lon1 = _toRadians(other.longitude);
     final dlon = lon1 - lon0;
     final dlat = lat1 - lat0;
-    final a = pow(sin(dlat / 2), 2.0) +
+    final num a = pow(sin(dlat / 2), 2.0) +
         cos(lat0) * cos(lat1) * pow(sin(dlon / 2), 2.0);
     final c = 2 * atan2(sqrt(a), sqrt(1 - a));
     const _radius = 6378137.0;

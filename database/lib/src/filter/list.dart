@@ -26,9 +26,9 @@ import 'package:database/filter.dart';
 /// });
 /// ```
 class ListFilter extends Filter {
-  final Filter /*!*/ item;
+  final Filter item;
 
-  const ListFilter({this.item});
+  const ListFilter({required this.item});
 
   @override
   Iterable<Filter> get children sync* {

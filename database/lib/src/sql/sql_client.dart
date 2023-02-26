@@ -87,7 +87,7 @@ class SqlClient extends SqlClientBase {
   /// ```
   Future<void> runInTransaction(
     Future<void> Function(SqlTransaction sqlTransaction) callback, {
-    Duration timeout,
+    Duration? timeout,
   }) {
     return SqlTransactionRequest(
       sqlClient: this,
@@ -136,7 +136,7 @@ abstract class SqlClientBase {
   ///   ['shampoo', 8],
   /// );
   /// ```
-  Future<SqlStatementResult> execute(String sql, [List arguments]) {
+  Future<SqlStatementResult> execute(String sql, [List? arguments]) {
     return rawExecute(SqlStatement(sql, arguments));
   }
 
@@ -150,7 +150,7 @@ abstract class SqlClientBase {
   ///   [8, 1],
   /// );
   /// ```
-  SqlClientTableQueryHelper query(String sql, [List arguments]) {
+  SqlClientTableQueryHelper query(String sql, [List? arguments]) {
     return SqlClientTableQueryHelper._(this, SqlStatement(sql, arguments));
   }
 
@@ -167,6 +167,6 @@ abstract class SqlClientBase {
   /// await client.table('person').deleteWhere({'name': 'Alan Turing'});
   /// ```
   SqlClientTableHelper table(String name) {
-    return SqlClientTableHelper._(this, name);
+    return SqlClientTableHelper._(this as SqlClient, name);
   }
 }

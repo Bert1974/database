@@ -62,19 +62,19 @@ class SearchQueryParser {
   const SearchQueryParser();
 
   /// Parses all remaining tokens in the state.
-  Filter parseFilter(SearchQueryParserState state) {
+  Filter? parseFilter(SearchQueryParserState state) {
     return _parseFilter(state);
   }
 
   /// Parses the string.
-  Filter parseFilterFromString(String s) {
+  Filter? parseFilterFromString(String s) {
     final scannerState = ScannerState(Source(s));
     const Scanner().scan(scannerState);
-    final filter = parseFilter(SearchQueryParserState(scannerState.tokens));
+    final filter = parseFilter(SearchQueryParserState(scannerState.tokens))!;
     return filter.simplify();
   }
 
-  Filter _parseFilter(SearchQueryParserState state, {bool isRoot = true}) {
+  Filter? _parseFilter(SearchQueryParserState state, {bool isRoot = true}) {
     final filters = <Filter>[];
     var previousIndex = state.index - 1;
     loop:
@@ -103,14 +103,14 @@ class SearchQueryParser {
 
         case TokenType.operatorAnd:
           state.advance();
-          final left = AndFilter(filters, isImplicit: true).simplify();
-          final right = _parseFilter(state, isRoot: false);
+          final left = AndFilter(filters, isImplicit: true).simplify()!;
+          final right = _parseFilter(state, isRoot: false)!;
           return AndFilter([left, right]).simplify();
 
         case TokenType.operatorOr:
           state.advance();
           final left = AndFilter(filters, isImplicit: true);
-          final right = _parseFilter(state, isRoot: false);
+          final right = _parseFilter(state, isRoot: false)!;
           return OrFilter([left, right]).simplify();
 
         //
@@ -166,7 +166,7 @@ class SearchQueryParser {
   Filter _parseRangeFilter(SearchQueryParserState state) {
     // '[' or '{'
     final startIndex = state.index;
-    final isExclusiveMin = state.get(0).type == TokenType.leftCurlyBracket;
+    final isExclusiveMin = state.get(0)!.type == TokenType.leftCurlyBracket;
     state.advance();
     state.skipWhitespace();
 
@@ -175,13 +175,13 @@ class SearchQueryParser {
     state.skipWhitespace();
 
     // TO
-    final to = state.get(0);
+    final to = state.get(0)!;
     state.advance();
     state.skipWhitespace();
     if (to.type != TokenType.string || to.value != 'TO') {
       // Go back and handle initial '[' / '{' as keyword
       state.index = startIndex;
-      final value = state.get(0).value;
+      final value = state.get(0)!.value;
       state.advance();
       return KeywordFilter(value);
     }
@@ -191,7 +191,7 @@ class SearchQueryParser {
     state.skipWhitespace();
 
     // ']' or '}'
-    final isExclusiveMax = state.get(0).type == TokenType.rightCurlyBracket;
+    final isExclusiveMax = state.get(0)!.type == TokenType.rightCurlyBracket;
     state.advance();
     state.skipWhitespace();
 
@@ -205,7 +205,7 @@ class SearchQueryParser {
 
   /// Parse a filter without attempting to handle operators like AND/OR after
   /// the filter.
-  Filter _parseSimpleFilter(SearchQueryParserState state) {
+  Filter? _parseSimpleFilter(SearchQueryParserState state) {
     state.skipWhitespace();
     final token = state.get(0);
     if (token == null) {
@@ -277,7 +277,7 @@ class SearchQueryParser {
           state.isProperty = true;
 
           // Parse value
-          final value = _parseSimpleFilter(state);
+          final value = _parseSimpleFilter(state)!;
           state.isProperty = oldIsProperty;
           return MapFilter({name: value});
         }
@@ -311,12 +311,12 @@ class SearchQueryParser {
   ///   * 3 --> 3
   ///   * 3.14 --> 3.14
   ///   * 2020-12-31 --> Date(2020, 12, 31)
-  Object _parseValue(SearchQueryParserState state, {bool supportStar = false}) {
+  Object? _parseValue(SearchQueryParserState state, {bool supportStar = false}) {
     // Skip whitespace before the token
     state.skipWhitespace();
 
     // Get token
-    final token = state.get(0);
+    final token = state.get(0)!;
     state.advance();
 
     // Skip whitespace after the token
@@ -399,7 +399,7 @@ class SearchQueryParserState {
   SearchQueryParserState(this.tokens);
 
   /// Discards the current token and moves to the next one.
-  Token advance() {
+  Token? advance() {
     final tokens = this.tokens;
     final index = this.index + 1;
     if (index >= tokens.length) {
@@ -411,7 +411,7 @@ class SearchQueryParserState {
   }
 
   /// Returns the token the index. Calling `get(0)` gives the current.
-  Token get(int i) {
+  Token? get(int i) {
     final tokens = this.tokens;
     final index = this.index + i;
     if (index < 0 || index >= tokens.length) {

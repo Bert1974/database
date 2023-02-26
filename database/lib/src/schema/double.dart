@@ -41,7 +41,7 @@ class DoubleSchema extends PrimitiveSchema<double> {
   }
 
   @override
-  bool isValidTree(Object /*?*/ argument, {List cycleDetectionStack}) {
+  bool isValidTree(Object? argument, {List? cycleDetectionStack}) {
     return argument == null ||
         (argument is double &&
             ((!argument.isNaN && !argument.isInfinite) ||

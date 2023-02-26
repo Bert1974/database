@@ -21,7 +21,7 @@ import 'package:universal_io/io.dart';
 /// perform. The response is a stream of [DatabaseExtensionResponse] objects.
 class SchemaReadRequest extends Request<Stream<DatabaseSchema>> {
   final Database database;
-  final Collection collection;
+  final Collection? collection;
 
   SchemaReadRequest.forCollection(Collection collection)
       : database = collection.database,

@@ -16,7 +16,7 @@ abstract class DocumentDatabaseAdapter extends DatabaseAdapter {
     ).last;
     for (var snapshot in result.snapshots) {
       await performDocumentDelete(DocumentDeleteRequest(
-        document: snapshot.document,
+        document: snapshot!.document,
         mustExist: false,
         reach: request.reach,
       ));
@@ -28,12 +28,12 @@ abstract class DocumentDatabaseAdapter extends DatabaseAdapter {
   Future<void> performDocumentInsert(DocumentInsertRequest request) {
     return performDocumentTransaction(DocumentTransactionRequest(
       callback: (transaction) async {
-        final snapshot = await transaction.get(request.document);
+        final snapshot = await transaction.get(request.document!);
         if (snapshot.exists) {
           throw DatabaseException.found(request.document);
         }
         await transaction.upsert(
-          request.document,
+          request.document!,
           data: request.data,
         );
       },
@@ -97,7 +97,7 @@ abstract class DocumentDatabaseAdapter extends DatabaseAdapter {
         // Is this a patch?
         var data = request.data;
         if (request.isPatch) {
-          final patchedData = Map<String, Object>.from(snapshot.data);
+          final patchedData = Map<String, Object>.from(snapshot.data!);
           patchedData.addAll(data);
           data = patchedData;
         }
@@ -126,7 +126,7 @@ abstract class DocumentDatabaseAdapter extends DatabaseAdapter {
     ).last;
     for (var snapshot in result.snapshots) {
       await performDocumentUpdate(DocumentUpdateRequest(
-        document: snapshot.document,
+        document: snapshot!.document,
         data: request.data,
         isPatch: request.isPatch,
         reach: request.reach,

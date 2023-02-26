@@ -34,7 +34,7 @@ class DelegatingDatabaseAdapter implements DatabaseAdapter {
   }
 
   @override
-  Future<void> performCheckConnection({Duration timeout}) {
+  Future<void> performCheckConnection({Duration? timeout}) {
     return _adapter.performCheckConnection(timeout: timeout);
   }
 

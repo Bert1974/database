@@ -77,35 +77,35 @@ class BuiltValueSerializationConfig extends Mapper {
   BuiltValueSerializationConfig(this._serializers);
 
   @override
-  Object rawGraphFrom(
-    Object value, {
-    String typeName,
-    FullType specifiedType,
-    MapperEncodeContext context,
+  Object? rawGraphFrom(
+    Object? value, {
+    String? typeName,
+    FullType? specifiedType,
+    MapperEncodeContext? context,
   }) {
     if (specifiedType == null && typeName != null) {
-      final serializer = _serializers.serializerForWireName(typeName);
+      final serializer = _serializers.serializerForWireName(typeName)!;
       specifiedType = FullType(serializer.types.first);
     }
-    return _serializers.serialize(value, specifiedType: specifiedType);
+    return _serializers.serialize(value, specifiedType: specifiedType!);
   }
 
   @override
-  Object rawGraphTo(
-    Object value, {
-    String typeName,
-    FullType specifiedType,
-    MapperDecodeContext context,
+  Object? rawGraphTo(
+    Object? value, {
+    String? typeName,
+    FullType? specifiedType,
+    MapperDecodeContext? context,
   }) {
     if (specifiedType == null && typeName != null) {
-      final serializer = _serializers.serializerForWireName(typeName);
+      final serializer = _serializers.serializerForWireName(typeName)!;
       specifiedType = FullType(serializer.types.first);
     }
-    return _serializers.deserialize(value, specifiedType: specifiedType);
+    return _serializers.deserialize(value, specifiedType: specifiedType!);
   }
 }
 
-class _DateSerializer extends PrimitiveSerializer<Date /*!*/ > {
+class _DateSerializer extends PrimitiveSerializer<Date > {
   @override
   Iterable<Type> get types => const [Date];
 
@@ -134,7 +134,7 @@ class _DateSerializer extends PrimitiveSerializer<Date /*!*/ > {
   }
 }
 
-class _DocumentSerializer extends PrimitiveSerializer<Document /*!*/ > {
+class _DocumentSerializer extends PrimitiveSerializer<Document > {
   _DocumentSerializer();
 
   @override

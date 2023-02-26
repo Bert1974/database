@@ -20,12 +20,12 @@ abstract class PrimitiveSchema<T> extends Schema<T> {
   const PrimitiveSchema();
 
   @override
-  bool isValidSchema({List cycleDetectionStack}) {
+  bool isValidSchema({List? cycleDetectionStack}) {
     return false;
   }
 
   @override
-  bool isValidTree(Object /*?*/ argument, {List cycleDetectionStack}) {
+  bool isValidTree(Object? argument, {List? cycleDetectionStack}) {
     if (argument == null) {
       return true;
     }
@@ -33,12 +33,12 @@ abstract class PrimitiveSchema<T> extends Schema<T> {
   }
 
   @override
-  T /*?*/ selectTree(Object /*?*/ argument, {bool ignoreErrors = false}) {
+  T? selectTree(Object? argument, {bool ignoreErrors = false}) {
     if (argument == null) {
       return null;
     }
     if (argument is T) {
-      return argument;
+      return argument as T?;
     }
     if (ignoreErrors) {
       return null;
@@ -61,7 +61,7 @@ abstract class Schema<T> {
 
   R acceptVisitor<R, C>(SchemaVisitor<R, C> visitor, C context);
 
-  void checkTreeIsValid(Object argument, {List<Object> stack}) {
+  void checkTreeIsValid(Object? argument, {List<Object>? stack}) {
     if (isValidTree(argument)) {
       return;
     }
@@ -69,12 +69,12 @@ abstract class Schema<T> {
     throw ArgumentError('Invalid tree: /${stack.join('/')}');
   }
 
-  T /*?*/ decodeWith(SchemaBasedConverterBase visitor, Object argument) {
-    final result = acceptVisitor(visitor, argument) as T /* ? */;
+  T? decodeWith(SchemaBasedConverterBase visitor, Object? argument) {
+    final result = acceptVisitor(visitor, argument) as T? /* ? */;
     return result;
   }
 
-  Object encodeWith(SchemaBasedConverterBase visitor, T /*?*/ argument) {
+  Object? encodeWith(SchemaBasedConverterBase visitor, T? argument) {
     return acceptVisitor(visitor, argument);
   }
 
@@ -83,19 +83,19 @@ abstract class Schema<T> {
   /// Determines whether the schema is valid.
   ///
   /// Optional argument [cycleDetectionStack] is used for detecting cycles.
-  bool isValidSchema({List cycleDetectionStack});
+  bool isValidSchema({List? cycleDetectionStack});
 
   /// Determines whether the argument matches the schema.
   ///
   /// Optional argument [cycleDetectionStack] is used for detecting cycles.
-  bool isValidTree(Object /*?*/ argument, {List cycleDetectionStack});
+  bool isValidTree(Object? argument, {List? cycleDetectionStack});
 
   /// Select a tree in a graph.
-  T /*?*/ selectTree(Object /*?*/ argument, {bool ignoreErrors = false});
+  T? selectTree(Object? argument, {bool ignoreErrors = false});
 
   Object toJson();
 
-  static Schema /*?*/ fromJson(Object json) {
+  static Schema? fromJson(Object? json) {
     if (json == null) {
       return null;
     }
@@ -135,7 +135,7 @@ abstract class Schema<T> {
     if (json is List) {
       return ListSchema(
         itemsByIndex:
-            List<Schema /*?*/ >.unmodifiable(json.map(Schema.fromJson)),
+            List<Schema? >.unmodifiable(json.map(Schema.fromJson)),
       );
     }
     if (json is Map) {
@@ -182,7 +182,7 @@ abstract class Schema<T> {
   }
 
   /// Constructs a schema from a Dart tree.
-  static Schema /*?*/ fromValue(Object value, {List cycleDetectionStack}) {
+  static Schema? fromValue(Object? value, {List? cycleDetectionStack}) {
     if (value == null) {
       return null;
     }
@@ -225,12 +225,12 @@ abstract class Schema<T> {
         if (value.isEmpty) {
           return const ListSchema(itemsByIndex: []);
         }
-        var /*!*/ itemSchemas = <Schema> /*!*/ [] /*!*/;
+        List<Schema<dynamic>?>? /*!*/ itemSchemas = <Schema?> /*!*/ [] /*!*/;
         var noNonNull = true;
         for (var item in value) {
           final schema =
               Schema.fromValue(item, cycleDetectionStack: cycleDetectionStack);
-          itemSchemas.add(schema);
+          itemSchemas!.add(schema);
           noNonNull = false;
         }
         if (noNonNull) {

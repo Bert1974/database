@@ -37,7 +37,7 @@ abstract class DatabaseAdapter {
     return Database.withAdapter(this);
   }
 
-  Future<void> performCheckConnection({Duration timeout}) {
+  Future<void> performCheckConnection({Duration? timeout}) {
     return Future<void>.value();
   }
 
@@ -74,8 +74,8 @@ abstract class DatabaseAdapter {
     return Future<DocumentBatchResponse>.value(DocumentBatchResponse(
       documentDeleteResponses: documentDeleteResponses,
       documentInsertResponses: documentInsertResponses,
-      documentSearchResponses: documentSearchResponses,
-      documentReadResponses: documentReadResponses,
+      documentSearchResponses: documentSearchResponses as List<Stream<QueryResult>>,
+      documentReadResponses: documentReadResponses as List<Stream<Snapshot>>,
       documentUpdateResponses: documentUpdateResponses,
       documentUpsertResponses: documentUpsertResponses,
     ));

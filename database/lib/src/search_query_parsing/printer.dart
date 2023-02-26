@@ -210,7 +210,7 @@ class SearchQueryPrinter extends FilterVisitor<void, Null> {
   }
 
   @protected
-  void writeValue(Object value) {
+  void writeValue(Object? value) {
     if (value is String) {
       writeStringValue(value);
     } else {

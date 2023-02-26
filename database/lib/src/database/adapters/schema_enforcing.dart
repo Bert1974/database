@@ -69,16 +69,16 @@ import 'package:meta/meta.dart';
 /// }
 /// ```
 class SchemaEnforcingDatabaseAdapter extends DelegatingDatabaseAdapter {
-  final DatabaseSchema /*?*/ databaseSchema;
+  final DatabaseSchema? databaseSchema;
 
   SchemaEnforcingDatabaseAdapter({
-    @required DatabaseAdapter adapter,
-    @required this.databaseSchema,
+    required DatabaseAdapter adapter,
+    required this.databaseSchema,
   }) : super(adapter);
 
   @override
   Future<void> performDocumentInsert(DocumentInsertRequest request) async {
-    final schema = await request.collection.schema();
+    final schema = await request.collection!.schema();
     request.inputSchema ??= schema;
     schema?.checkTreeIsValid(request.data);
     return super.performDocumentInsert(request);
@@ -86,7 +86,7 @@ class SchemaEnforcingDatabaseAdapter extends DelegatingDatabaseAdapter {
 
   @override
   Stream<Snapshot> performDocumentRead(DocumentReadRequest request) async* {
-    final schema = await request.document.parent.schema();
+    final schema = await request.document.parent!.schema();
     request.outputSchema ??= schema;
     yield* (super.performDocumentRead(request));
   }
@@ -94,7 +94,7 @@ class SchemaEnforcingDatabaseAdapter extends DelegatingDatabaseAdapter {
   @override
   Stream<Snapshot> performDocumentReadWatch(
       DocumentReadWatchRequest request) async* {
-    final schema = await request.document.parent.schema();
+    final schema = await request.document.parent!.schema();
     request.outputSchema ??= schema;
     yield* (super.performDocumentReadWatch(request));
   }
@@ -117,7 +117,7 @@ class SchemaEnforcingDatabaseAdapter extends DelegatingDatabaseAdapter {
 
   @override
   Future<void> performDocumentUpdate(DocumentUpdateRequest request) async {
-    final schema = await request.document.parent.schema();
+    final schema = await request.document.parent!.schema();
     request.inputSchema ??= schema;
     schema?.checkTreeIsValid(request.data);
     return super.performDocumentUpdate(request);
@@ -134,17 +134,17 @@ class SchemaEnforcingDatabaseAdapter extends DelegatingDatabaseAdapter {
 
   @override
   Future<void> performDocumentUpsert(DocumentUpsertRequest request) async {
-    final schema = await request.document.parent.schema();
+    final schema = await request.document.parent!.schema();
     request.inputSchema ??= schema;
     schema?.checkTreeIsValid(request.data);
     return super.performDocumentUpsert(request);
   }
 
   @override
-  Stream<DatabaseSchema /*!*/ > performSchemaRead(SchemaReadRequest request) {
+  Stream<DatabaseSchema > performSchemaRead(SchemaReadRequest request) {
     if (databaseSchema == null) {
       return super.performSchemaRead(request);
     }
-    return Stream<DatabaseSchema /*!*/ >.value(databaseSchema);
+    return Stream<DatabaseSchema >.value(databaseSchema!);
   }
 }

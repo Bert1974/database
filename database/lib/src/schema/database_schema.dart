@@ -18,20 +18,20 @@ import 'package:database/schema.dart';
 /// Describes database schema.
 class DatabaseSchema {
   /// Schemas by collection ID.
-  final Map<String, Schema> /*!*/ schemasByCollection;
+  final Map<String, Schema> schemasByCollection;
 
   /// Default schema for any collection that doesn't have a schema specified by
   /// [schemasByCollection].
   ///
   /// If null, only collections specified by [schemasByCollection] can be used.
-  final Schema defaultSchema;
+  final Schema? defaultSchema;
 
   DatabaseSchema({
-    this.schemasByCollection,
+    required this.schemasByCollection,
     this.defaultSchema,
   });
 
-  Schema getSchemaForCollection(Collection collection) {
+  Schema? getSchemaForCollection(Collection collection) {
     if (schemasByCollection != null) {
       final schema = schemasByCollection[collection.collectionId];
       if (schema != null) {

@@ -576,7 +576,7 @@ void main() {
 
       // Test that the result is immutable
       final result = schema.selectTree([]);
-      expect(() => result.add(1), throwsUnsupportedError);
+      expect(() => result!.add(1), throwsUnsupportedError);
     });
 
     test('encode JSON: "items" is null', () {
@@ -643,8 +643,8 @@ void main() {
 
     test('encode JSON: returns an immutable list', () {
       final schema = ListSchema(items: BytesSchema());
-      final value = schema.encodeWith(jsonEncoder, [null]) as List;
-      expect(() => value.add(1), throwsUnsupportedError);
+      final value = schema.encodeWith(jsonEncoder, [null]) as List?;
+      expect(() => value!.add(1), throwsUnsupportedError);
     });
 
     test('decode JSON: "items" is null', () {
@@ -805,7 +805,7 @@ void main() {
         })
       });
       final result = schema.selectTree({});
-      expect(() => result['k'] = 'v', throwsUnsupportedError);
+      expect(() => result!['k'] = 'v', throwsUnsupportedError);
     });
 
     test('decode JSON: "properties" has a schema', () {
@@ -843,8 +843,8 @@ void main() {
       final schema = MapSchema({
         'k': BytesSchema(),
       });
-      final value = schema.encodeWith(jsonEncoder, {'k': null}) as Map;
-      expect(() => value['k'] = null, throwsUnsupportedError);
+      final value = schema.encodeWith(jsonEncoder, {'k': null}) as Map?;
+      expect(() => value!['k'] = null, throwsUnsupportedError);
     });
 
     test('encode JSON: "properties" has a schema', () {
@@ -880,8 +880,8 @@ void main() {
       final schema = MapSchema({
         'k': BytesSchema(),
       });
-      final value = schema.encodeWith(jsonEncoder, {'k': null}) as Map;
-      expect(() => value['k'] = null, throwsUnsupportedError);
+      final value = schema.encodeWith(jsonEncoder, {'k': null}) as Map?;
+      expect(() => value!['k'] = null, throwsUnsupportedError);
     });
   });
 }

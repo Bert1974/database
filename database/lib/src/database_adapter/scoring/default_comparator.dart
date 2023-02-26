@@ -17,7 +17,7 @@ import 'dart:typed_data';
 import 'package:database/database.dart';
 
 /// Compares any support primitives.
-int defaultComparator(Object left, Object right) {
+int defaultComparator(Object? left, Object? right) {
   if (left == right) {
     return 0;
   }

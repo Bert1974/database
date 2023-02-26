@@ -20,7 +20,7 @@ class SecurityAdapter extends DelegatingDatabaseAdapter {
   Stream<Snapshot> performDocumentRead(DocumentReadRequest request) async* {
     await beforeRead(request);
     yield* (super.performDocumentRead(request).asyncMap((snapshot) {
-      return transformSnapshot(request, snapshot);
+      return transformSnapshot(request, snapshot)!;
     }));
   }
 
@@ -29,7 +29,7 @@ class SecurityAdapter extends DelegatingDatabaseAdapter {
       DocumentReadWatchRequest request) async* {
     await beforeRead(request);
     yield* (super.performDocumentReadWatch(request).asyncMap((snapshot) {
-      return transformSnapshot(request, snapshot);
+      return transformSnapshot(request, snapshot)!;
     }));
   }
 
@@ -90,9 +90,9 @@ class SecurityAdapter extends DelegatingDatabaseAdapter {
   /// Transforms snapshot before returning to the caller.
   ///
   /// This can be used for security purposes.
-  FutureOr<Snapshot> transformSnapshot(
+  FutureOr<Snapshot>? transformSnapshot(
     Request request,
-    Snapshot snapshot,
+    Snapshot? snapshot,
   ) {
     return snapshot;
   }

@@ -26,7 +26,7 @@ class SqlStatement {
   final String value;
   final List arguments;
 
-  SqlStatement(this.value, [List arguments])
+  SqlStatement(this.value, [List? arguments])
       : assert(value != null),
         arguments = arguments ?? const [];
 
@@ -40,7 +40,7 @@ class SqlStatement {
       ListEquality().equals(arguments, other.arguments);
 
   /// Replaces parameters in the SQL string using the function.
-  String replaceParameters(String Function(int index, Object value) f) {
+  String replaceParameters(String Function(int index, Object? value) f) {
     final sql = value;
 
     // Optimize simple case

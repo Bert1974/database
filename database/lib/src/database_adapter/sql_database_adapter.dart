@@ -36,7 +36,7 @@ abstract class SqlDatabaseAdapter extends DatabaseAdapter {
     final document = request.document;
 
     final result = await document.parentDatabase.sqlClient
-        .table(document.parent.collectionId)
+        .table(document.parent!.collectionId)
         .whereColumn('id', equals: document.documentId)
         .deleteAll();
 
@@ -64,7 +64,7 @@ abstract class SqlDatabaseAdapter extends DatabaseAdapter {
     final document = request.document;
 
     final maps = await document.parentDatabase.sqlClient
-        .table(document.parent.collectionId)
+        .table(document.parent!.collectionId)
         .whereColumn('id', equals: document.documentId)
         .select()
         .toMaps();
@@ -131,9 +131,9 @@ abstract class SqlDatabaseAdapter extends DatabaseAdapter {
     for (var row in columnRows) {
       final tableSchemaName = row[0] as String;
       final columnName = row[1] as String;
-      final isNullable = _isNullableFrom(row[2] as String);
+      final isNullable = _isNullableFrom(row[2] as String?);
       final dataType = row[3] as String;
-      final int characterMaximumLength = row[3];
+      final int? characterMaximumLength = row[3] as int?;
 
       assert(tableSchemaName != null);
       assert(columnName != null);
@@ -194,7 +194,7 @@ abstract class SqlDatabaseAdapter extends DatabaseAdapter {
   Future<R> scheduleExclusiveAccess<R>(
     SqlClient sqlClient,
     Future<R> Function(SqlClient sqlClient) callback, {
-    Duration timeout,
+    Duration? timeout,
   }) async {
     while (_isLocked) {
       final completer = Completer<void>();
@@ -216,9 +216,9 @@ abstract class SqlDatabaseAdapter extends DatabaseAdapter {
   }
 
   static Schema _columnSchemaFrom({
-    @required String dataType,
-    @required bool isNullable,
-    @required int characterMaximumLength,
+    required String dataType,
+    required bool isNullable,
+    required int? characterMaximumLength,
   }) {
     switch (dataType.toLowerCase()) {
       case 'bool':
@@ -249,7 +249,7 @@ abstract class SqlDatabaseAdapter extends DatabaseAdapter {
     }
   }
 
-  static bool _isNullableFrom(String value) {
+  static bool _isNullableFrom(String? value) {
     switch (value) {
       case 'YES':
         return true;

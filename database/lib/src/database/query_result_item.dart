@@ -26,11 +26,11 @@ import 'package:meta/meta.dart';
 /// ```
 class QueryResultItem<T> {
   /// Snapshot of the document.
-  final Snapshot snapshot;
+  final Snapshot? snapshot;
 
   /// Optional score given by the underlying search engine. Developers may find
   /// it useful for debugging.
-  final double score;
+  final double? score;
 
   /// Snippets of the document.
   final List<Snippet> snippets;
@@ -38,10 +38,10 @@ class QueryResultItem<T> {
   /// Optional vendor-specific data received from the database.
   /// For example, a database adapter for Elasticsearch could expose JSON
   /// response received from the REST API of Elasticsearch.
-  final Object vendorData;
+  final Object? vendorData;
 
   const QueryResultItem({
-    @required this.snapshot,
+    required this.snapshot,
     this.score,
     this.snippets = const <Snippet>[],
     this.vendorData,
@@ -52,10 +52,10 @@ class QueryResultItem<T> {
   /// Depending on the query options, this:
   ///   * May be null
   ///   * May contain incomplete data
-  Map<String, Object> get data => snapshot.data;
+  Map<String, Object?>? get data => snapshot!.data;
 
   /// Document that matched.
-  Document get document => snapshot.document;
+  Document get document => snapshot!.document;
 
   @override
   int get hashCode =>

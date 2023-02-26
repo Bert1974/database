@@ -35,16 +35,16 @@ class DocumentScoringStateBase extends DocumentScoringState
     implements FilterVisitor<double, Object> {
   static const _deepEquality = DeepCollectionEquality();
 
-  final Filter filter;
+  final Filter? filter;
 
   DocumentScoringStateBase(this.filter);
 
   @override
-  double evaluateSnapshot(Snapshot snapshot) {
+  double evaluateSnapshot(Snapshot? snapshot) {
     if (filter == null) {
       return 1.0;
     }
-    return filter.accept(this, snapshot.data);
+    return filter!.accept(this, snapshot!.data);
   }
 
   @override

@@ -37,7 +37,7 @@ void main() {
       {
         final result = query
             .documentListFromIterable(snapshots)
-            .map((item) => item.data['x'])
+            .map((item) => item.data!['x'])
             .toList();
         expect(result, expected);
       }
@@ -53,7 +53,7 @@ void main() {
               ]),
             )
             .last;
-        final result = resultSnapshots.map((s) => s.data['x']).toList();
+        final result = resultSnapshots.map((s) => s.data!['x']).toList();
         expect(result, expected);
       }
 
@@ -69,7 +69,7 @@ void main() {
               ]),
             )
             .last;
-        final result = resultSnapshots.map((s) => s.data['x']).toList();
+        final result = resultSnapshots.map((s) => s.data!['x']).toList();
         expect(result, expected);
       }
 
@@ -88,7 +88,7 @@ void main() {
               ]),
             )
             .last;
-        final result = resultSnapshots.map((s) => s.data['x']).toList();
+        final result = resultSnapshots.map((s) => s.data!['x']).toList();
         expect(result, expected);
       }
 
@@ -107,7 +107,7 @@ void main() {
               ]),
             )
             .last;
-        final result = resultSnapshots.map((s) => s.data['x']).toList();
+        final result = resultSnapshots.map((s) => s.data!['x']).toList();
         expect(result, expected);
       }
     }

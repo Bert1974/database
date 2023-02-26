@@ -54,7 +54,7 @@ import 'package:meta/meta.dart';
 ///
 class Document<T> {
   /// Collection where the document is.
-  final Collection /*?*/ parent;
+  final Collection? parent;
 
   /// A non-blank document identifier.
   ///
@@ -68,7 +68,7 @@ class Document<T> {
 
   /// Constructs a document. Usually you should call the method
   /// `collection.document("id")` instead of this constructor.
-  Document(this.parent, this.documentId)
+  Document(Collection this.parent, this.documentId)
       : assert(parent != null),
         assert(documentId != null) {
     ArgumentError.checkNotNull(database, 'database');
@@ -78,12 +78,12 @@ class Document<T> {
   }
 
   /// Returns database where the document is.
-  Database get database => parent.database;
+  Database get database => parent!.database;
 
   @override
   int get hashCode => documentId.hashCode ^ parent.hashCode;
 
-  Database get parentDatabase => parent.database;
+  Database get parentDatabase => parent!.database;
 
   @override
   bool operator ==(other) =>
@@ -98,7 +98,7 @@ class Document<T> {
   ///     final document = database.collection('recipe').document('tiramisu');
   ///     await document.delete(mustExist:true);
   Future<void> delete({
-    Reach reach,
+    Reach? reach,
     bool mustExist = false,
   }) {
     return DocumentDeleteRequest(
@@ -140,8 +140,8 @@ class Document<T> {
   ///       reach: Reach.regional,
   ///     );
   Future<Snapshot> get({
-    Schema schema,
-    Reach reach,
+    Schema? schema,
+    Reach? reach,
   }) {
     return getIncrementally(
       schema: schema,
@@ -152,8 +152,8 @@ class Document<T> {
   /// Returns an incrementally improving stream snapshots until the best
   /// available snapshot has been received.
   Stream<Snapshot> getIncrementally({
-    Schema schema,
-    Reach reach,
+    Schema? schema,
+    Reach? reach,
   }) {
     return DocumentReadRequest(
       document: this,
@@ -174,7 +174,7 @@ class Document<T> {
   ///   * [Reach.global] tells that the write should reach the global master
   ///     database.
   Future<void> insert({
-    @required Map<String, Object> data,
+    required Map<String, Object> data,
     Reach reach = Reach.regional,
   }) async {
     return DocumentInsertRequest(
@@ -194,8 +194,8 @@ class Document<T> {
   ///   * [Reach.global] tells that the write should reach the global master
   ///     database.
   Future<void> patch({
-    @required Map<String, Object> data,
-    Reach reach,
+    required Map<String, Object> data,
+    Reach? reach,
   }) {
     return DocumentUpdateRequest(
       document: this,
@@ -220,7 +220,7 @@ class Document<T> {
   ///   * [Reach.global] tells that the write should reach the global master
   ///     database.
   Future<void> update({
-    Map<String, Object> data,
+    required Map<String, Object> data,
     Reach reach = Reach.regional,
   }) async {
     return DocumentUpdateRequest(
@@ -240,8 +240,8 @@ class Document<T> {
   ///   * [Reach.global] tells that the write should reach the global master
   ///     database.
   Future<void> upsert({
-    @required Map<String, Object> data,
-    Reach reach,
+    required Map<String, Object> data,
+    Reach? reach,
   }) {
     return DocumentUpsertRequest(
       document: this,
@@ -256,9 +256,9 @@ class Document<T> {
   /// natively. In other databases, the operation may be implemented with
   /// polling.
   Stream<Snapshot> watch({
-    Schema schema,
-    Duration interval,
-    Reach reach,
+    Schema? schema,
+    Duration? interval,
+    Reach? reach,
   }) async* {
     // As long as the stream is not closed.
     while (true) {

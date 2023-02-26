@@ -44,13 +44,13 @@ class SqlClientTableQueryHelper {
   }
 
   /// Returns results as a list of rows.
-  Future<List<List<Object /*?*/ >>> toRows() async {
+  Future<List<List<Object? >>> toRows() async {
     final response = await _sqlClient.rawQuery(_sqlStatement);
     return response.toRows();
   }
 
   /// Returns results as a stream of rows.
-  Stream<List<Object /*?*/ >> toRowsStream() async* {
+  Stream<List<Object? >> toRowsStream() async* {
     final response = await _sqlClient.rawQuery(_sqlStatement);
     yield* (response.readRowStream());
   }

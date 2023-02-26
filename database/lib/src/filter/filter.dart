@@ -35,7 +35,7 @@ abstract class Filter {
 
   /// Simplifies the AST tree. For example, nested AND nodes are transformed
   /// into a single AND node.
-  Filter simplify() => this;
+  Filter? simplify() => this;
 
   /// Returns a string built with [SearchQueryPrinter].
   @override

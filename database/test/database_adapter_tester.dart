@@ -19,11 +19,11 @@ import 'package:database/schema.dart';
 import 'package:test/test.dart';
 
 void runCollectionAndDocumentTests() {
-  Database database;
-  Collection collection;
+  Database? database;
+  late Collection collection;
   final inserted = <Document>[];
 
-  Future<Document /*!*/ > insert({Map<String, Object> data}) async {
+  Future<Document > insert({required Map<String, Object?> data}) async {
     final document = await collection.insert(data: data);
     inserted.add(document);
     return document;
@@ -37,7 +37,7 @@ void runCollectionAndDocumentTests() {
     if (database == null) {
       return;
     }
-    collection = database.collection('exampleCollection');
+    collection = database!.collection('exampleCollection');
     await collection.searchAndDelete().last;
     await _waitAfterWrite();
 
@@ -104,23 +104,23 @@ void runCollectionAndDocumentTests() {
 
         // Sort snapshots
         snapshots.sort(
-          (a, b) => a.document.documentId.compareTo(b.document.documentId),
+          (a, b) => a!.document.documentId.compareTo(b!.document.documentId),
         );
 
         // Document 0
-        expect(snapshots[0].document, documents[0].key);
-        expect(snapshots[0].exists, isTrue);
-        expect(snapshots[0].data, documents[0].value);
+        expect(snapshots[0]!.document, documents[0].key);
+        expect(snapshots[0]!.exists, isTrue);
+        expect(snapshots[0]!.data, documents[0].value);
 
         // Document 1
-        expect(snapshots[1].document, documents[1].key);
-        expect(snapshots[1].exists, isTrue);
-        expect(snapshots[1].data, documents[1].value);
+        expect(snapshots[1]!.document, documents[1].key);
+        expect(snapshots[1]!.exists, isTrue);
+        expect(snapshots[1]!.data, documents[1].value);
 
         // Document 2
-        expect(snapshots[2].document, documents[2].key);
-        expect(snapshots[2].exists, isTrue);
-        expect(snapshots[2].data, documents[2].value);
+        expect(snapshots[2]!.document, documents[2].key);
+        expect(snapshots[2]!.exists, isTrue);
+        expect(snapshots[2]!.data, documents[2].value);
 
         //
         // Detailed items
@@ -133,17 +133,17 @@ void runCollectionAndDocumentTests() {
 
         // Document 0
         expect(items[0].document, documents[0].key);
-        expect(items[0].snapshot.exists, isTrue);
+        expect(items[0].snapshot!.exists, isTrue);
         expect(items[0].data, documents[0].value);
 
         // Document 1
         expect(items[1].document, documents[1].key);
-        expect(items[1].snapshot.exists, isTrue);
+        expect(items[1].snapshot!.exists, isTrue);
         expect(items[1].data, documents[1].value);
 
         // Document 2
         expect(items[2].document, documents[2].key);
-        expect(items[2].snapshot.exists, isTrue);
+        expect(items[2].snapshot!.exists, isTrue);
         expect(items[2].data, documents[2].value);
       });
     });
@@ -204,23 +204,23 @@ void runCollectionAndDocumentTests() {
 
         // Sort snapshots
         snapshots.sort(
-          (a, b) => a.document.documentId.compareTo(b.document.documentId),
+          (a, b) => a!.document.documentId.compareTo(b!.document.documentId),
         );
 
         // Document 0
-        expect(snapshots[0].document, documents[0].key);
-        expect(snapshots[0].exists, isTrue);
-        expect(snapshots[0].data, documents[0].value);
+        expect(snapshots[0]!.document, documents[0].key);
+        expect(snapshots[0]!.exists, isTrue);
+        expect(snapshots[0]!.data, documents[0].value);
 
         // Document 1
-        expect(snapshots[1].document, documents[1].key);
-        expect(snapshots[1].exists, isTrue);
-        expect(snapshots[1].data, documents[1].value);
+        expect(snapshots[1]!.document, documents[1].key);
+        expect(snapshots[1]!.exists, isTrue);
+        expect(snapshots[1]!.data, documents[1].value);
 
         // Document 2
-        expect(snapshots[2].document, documents[2].key);
-        expect(snapshots[2].exists, isTrue);
-        expect(snapshots[2].data, documents[2].value);
+        expect(snapshots[2]!.document, documents[2].key);
+        expect(snapshots[2]!.exists, isTrue);
+        expect(snapshots[2]!.data, documents[2].value);
 
         //
         // Detailed items
@@ -233,17 +233,17 @@ void runCollectionAndDocumentTests() {
 
         // Document 0
         expect(items[0].document, documents[0].key);
-        expect(items[0].snapshot.exists, isTrue);
+        expect(items[0].snapshot!.exists, isTrue);
         expect(items[0].data, documents[0].value);
 
         // Document 1
         expect(items[1].document, documents[1].key);
-        expect(items[1].snapshot.exists, isTrue);
+        expect(items[1].snapshot!.exists, isTrue);
         expect(items[1].data, documents[1].value);
 
         // Document 2
         expect(items[2].document, documents[2].key);
-        expect(items[2].snapshot.exists, isTrue);
+        expect(items[2].snapshot!.exists, isTrue);
         expect(items[2].data, documents[2].value);
       });
     });
@@ -298,23 +298,23 @@ void runCollectionAndDocumentTests() {
 
         // Sort snapshots
         snapshots.sort(
-          (a, b) => a.document.documentId.compareTo(b.document.documentId),
+          (a, b) => a!.document.documentId.compareTo(b!.document.documentId),
         );
 
         // Document 0
-        expect(snapshots[0].document, documents[0].key);
-        expect(snapshots[0].exists, isTrue);
-        expect(snapshots[0].data, documents[0].value);
+        expect(snapshots[0]!.document, documents[0].key);
+        expect(snapshots[0]!.exists, isTrue);
+        expect(snapshots[0]!.data, documents[0].value);
 
         // Document 1
-        expect(snapshots[1].document, documents[1].key);
-        expect(snapshots[1].exists, isTrue);
-        expect(snapshots[1].data, documents[1].value);
+        expect(snapshots[1]!.document, documents[1].key);
+        expect(snapshots[1]!.exists, isTrue);
+        expect(snapshots[1]!.data, documents[1].value);
 
         // Document 2
-        expect(snapshots[2].document, documents[2].key);
-        expect(snapshots[2].exists, isTrue);
-        expect(snapshots[2].data, documents[2].value);
+        expect(snapshots[2]!.document, documents[2].key);
+        expect(snapshots[2]!.exists, isTrue);
+        expect(snapshots[2]!.data, documents[2].value);
       });
     });
   });
@@ -411,7 +411,7 @@ void runCollectionAndDocumentTests() {
       });
 
       group('different values:', () {
-        Schema schema;
+        late Schema schema;
         setUp(() {
           schema = MapSchema({
             'null': ArbitraryTreeSchema(),
@@ -535,7 +535,7 @@ void runCollectionAndDocumentTests() {
           final snapshot = await document.get(
             schema: schema,
           );
-          final data = snapshot.data;
+          final data = snapshot.data!;
           expect(data['double-0'], 3.14);
         });
 
@@ -927,7 +927,7 @@ void runCollectionAndDocumentTests() {
         final document0 = collection.newDocument();
         final document1 = collection.newDocument();
 
-        final batch = database.newWriteBatch();
+        final batch = database!.newWriteBatch();
         batch.upsert(document0, data: {
           'k0-string': 'old value',
         });
@@ -964,7 +964,7 @@ void runCollectionAndDocumentTests() {
           final document1 = collection.newDocument();
           final document2 = collection.newDocument();
 
-          await database.runInTransaction(
+          await database!.runInTransaction(
               reach: Reach.global,
               timeout: Duration(seconds: 1),
               callback: (transaction) async {
@@ -1006,14 +1006,14 @@ void runCollectionAndDocumentTests() {
 }
 
 void runSqlTests() {
-  Database database;
+  Database? database;
 
   setUpAll(() async {
     database = await DatabaseAdapterTester.current.databaseBuilder();
   });
 
   tearDownAll(() async {
-    await database /*?*/ .adapter.close();
+    await database! /*?*/ .adapter.close();
   });
 
   test('a simple example', () async {
@@ -1021,7 +1021,7 @@ void runSqlTests() {
       return;
     }
 
-    final sqlClient = /*await*/ database.sqlClient;
+    final sqlClient = /*await*/ database!.sqlClient;
 
     //
     // Create table
@@ -1088,9 +1088,9 @@ void runSqlTests() {
 
       final columnDescriptions = result.columnDescriptions.toList()..sort();
       expect(columnDescriptions, hasLength(3));
-      expect(columnDescriptions[0].columnName, 'id');
-      expect(columnDescriptions[1].columnName, 'name');
-      expect(columnDescriptions[2].columnName, 'role');
+      expect(columnDescriptions[0]!.columnName, 'id');
+      expect(columnDescriptions[1]!.columnName, 'name');
+      expect(columnDescriptions[2]!.columnName, 'role');
     }
   });
 }
@@ -1107,7 +1107,7 @@ Future<void> _waitAfterWrite() {
 ///     ./tool/copy_database_adapter_test.sh
 ///
 class DatabaseAdapterTester {
-  static DatabaseAdapterTester current;
+  static late DatabaseAdapterTester current;
 
   /// Is it a cache?
   final bool isCache;
