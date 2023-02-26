@@ -211,7 +211,7 @@ class SchemaBasedConverterBase
     }
     if (argument is Map) {
       final properties = schema.properties;
-      final result = <String, Object>{};
+      final result = <String, Object /*?*/ >{};
       for (var entry in argument.entries) {
         final key = entry.key;
         final value = entry.value;
@@ -220,7 +220,7 @@ class SchemaBasedConverterBase
             const ArbitraryTreeSchema();
         result[key] = valueSchema.acceptVisitor(this, value);
       }
-      return Map<String, Object>.unmodifiable(result);
+      return Map<String, Object /*?*/ >.unmodifiable(result);
     }
     throw ArgumentError.value(argument);
   }
