@@ -18,7 +18,7 @@ import 'package:database/schema.dart';
 import 'package:meta/meta.dart';
 
 @sealed
-class DocumentReadWatchRequest extends Request<Stream<Snapshot>> {
+class DocumentReadWatchRequest extends Request<Stream<Snapshot /*?*/ >> {
   final Document document;
   final Reach reach;
   final Duration pollingInterval;
@@ -32,7 +32,7 @@ class DocumentReadWatchRequest extends Request<Stream<Snapshot>> {
   });
 
   @override
-  Stream<Snapshot> delegateTo(DatabaseAdapter adapter) {
+  Stream<Snapshot /*?*/ > delegateTo(DatabaseAdapter adapter) {
     return adapter.performDocumentReadWatch(this);
   }
 }

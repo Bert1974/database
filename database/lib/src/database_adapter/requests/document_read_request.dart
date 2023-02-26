@@ -18,7 +18,7 @@ import 'package:database/schema.dart';
 import 'package:meta/meta.dart';
 
 @sealed
-class DocumentReadRequest extends Request<Stream<Snapshot>> {
+class DocumentReadRequest extends Request<Stream<Snapshot /*?*/ >> {
   final Transaction transaction;
   final Document document;
   final Reach reach;
@@ -32,7 +32,7 @@ class DocumentReadRequest extends Request<Stream<Snapshot>> {
   });
 
   @override
-  Stream<Snapshot> delegateTo(DatabaseAdapter adapter) {
+  Stream<Snapshot /*?*/ > delegateTo(DatabaseAdapter adapter) {
     return adapter.performDocumentRead(this);
   }
 }
