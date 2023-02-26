@@ -257,7 +257,7 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     //
     // Construct request
     //
-    final jsonRequest = <String, Object>{};
+    final jsonRequest = <String, Object /*?*/ >{};
 
     //
     // Filter
@@ -362,7 +362,7 @@ class ElasticSearch extends DocumentDatabaseAdapter {
       items = jsonHitsList.map((h) {
         final documentId = h['_id'] as String;
         final score = h['_score'] as double;
-        final data = h['_source'] as Map<String, Object>;
+        final data = h['_source'] as Map<String, Object /*?*/ >;
         final decoder = JsonDecoder(database: collection.database);
         return QueryResultItem(
           snapshot: Snapshot(
@@ -530,7 +530,7 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     String method,
     String path, {
     Map<String, String> queryParameters = const {},
-    Map<String, Object> json,
+    Map<String, Object /*?*/ > json,
     Duration timeout,
   }) async {
     // Open HTTP request
@@ -563,7 +563,7 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     );
 
     // Decode JSON
-    final jsonResponse = jsonDecode(responseBody) as Map<String, Object>;
+    final jsonResponse = jsonDecode(responseBody) as Map<String, Object /*?*/ >;
 
     // Handle error
     final jsonError = jsonResponse['error'];
@@ -599,7 +599,7 @@ class ElasticSearch extends DocumentDatabaseAdapter {
 
 class _Response {
   final int status;
-  final Map<String, Object> body;
+  final Map<String, Object /*?*/ > body;
   final ElasticSearchError error;
 
   _Response({

@@ -38,7 +38,7 @@ void runCollectionAndDocumentTests() {
       return;
     }
     collection = database.collection('exampleCollection');
-    await collection.searchAndDelete();
+    collection.searchAndDelete();
     await _waitAfterWrite();
 
     addTearDown(() async {
@@ -1021,7 +1021,7 @@ void runSqlTests() {
       return;
     }
 
-    final sqlClient = await database.sqlClient;
+    final sqlClient = database.sqlClient;
 
     //
     // Create table
