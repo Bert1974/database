@@ -134,7 +134,8 @@ abstract class Schema<T> {
     }
     if (json is List) {
       return ListSchema(
-        itemsByIndex: List<Schema>.unmodifiable(json.map(Schema.fromJson)),
+        itemsByIndex:
+            List<Schema /*?*/ >.unmodifiable(json.map(Schema.fromJson)),
       );
     }
     if (json is Map) {

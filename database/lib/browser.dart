@@ -104,7 +104,7 @@ class BrowserLocalStorageDatabase extends DocumentDatabaseAdapter
       request.outputSchema,
       request.document.database,
       serialized,
-    ) as Map<String, Object>;
+    ) as Map<String, Object /*?*/ >;
     return Stream<Snapshot>.value(Snapshot(
       document: document,
       data: deserialized,
@@ -132,7 +132,7 @@ class BrowserLocalStorageDatabase extends DocumentDatabaseAdapter
       }
       final decoded =
           _decode(request.outputSchema, request.collection.database, serialized)
-              as Map<String, Object>;
+              as Map<String, Object /*?*/ >;
       return Snapshot(
         document: document,
         data: decoded,

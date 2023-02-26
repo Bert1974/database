@@ -126,8 +126,8 @@ class PropertySorter extends Sorter {
 
   @override
   int compare(Object left, Object right, {Comparator comparator}) {
-    if (left is Map<String, Object>) {
-      if (right is Map<String, Object>) {
+    if (left is Map<String, Object /*?*/ >) {
+      if (right is Map<String, Object /*?*/ >) {
         final leftValue = left[name];
         final rightValue = right[name];
         comparator ??= defaultComparator;
