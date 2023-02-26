@@ -20,7 +20,6 @@ import 'dart:convert';
 
 import 'package:database/database.dart';
 import 'package:database/database_adapter.dart';
-import 'package:meta/meta.dart';
 import 'package:universal_io/io.dart';
 
 /// An adapter for using [Algolia](https://www.algolia.io).
@@ -47,11 +46,11 @@ class Algolia extends DocumentDatabaseAdapter {
   final HttpClient httpClient;
 
   Algolia({
-    @required this.apiKey,
-    @required this.appId,
+    required this.apiKey,
+    required this.appId,
     this.allowSortersByIgnoring = false,
-    Uri uri,
-    HttpClient httpClient,
+    Uri? uri,
+    HttpClient? httpClient,
   }) : httpClient = httpClient ?? HttpClient() {
     ArgumentError.checkNotNull(apiKey, 'apiKey');
     ArgumentError.checkNotNull(appId, 'appId');
@@ -66,7 +65,7 @@ class Algolia extends DocumentDatabaseAdapter {
   @override
   Future<void> performDocumentDelete(DocumentDeleteRequest request) async {
     final document = request.document;
-    final collection = document.parent;
+    final collection = document.parent!;
     final collectionId = _validateCollectionId(collection.collectionId);
     final documentId = _validateDocumentId(document.documentId);
 
@@ -103,8 +102,8 @@ class Algolia extends DocumentDatabaseAdapter {
 
   @override
   Future<void> performDocumentInsert(DocumentInsertRequest request) async {
-    final document = request.document;
-    final collection = document.parent;
+    final document = request.document!;
+    final collection = document.parent!;
     final collectionId = _validateCollectionId(collection.collectionId);
     final documentId = _validateDocumentId(document.documentId);
 
@@ -141,7 +140,7 @@ class Algolia extends DocumentDatabaseAdapter {
   @override
   Stream<Snapshot> performDocumentRead(DocumentReadRequest request) async* {
     final document = request.document;
-    final collection = document.parent;
+    final collection = document.parent!;
     final collectionId = _validateCollectionId(collection.collectionId);
     final documentId = _validateDocumentId(document.documentId);
 
@@ -168,7 +167,7 @@ class Algolia extends DocumentDatabaseAdapter {
 
     // Create data
     final data = <String, Object>{};
-    data.addAll(apiResponse.json);
+    data.addAll(apiResponse.json!);
     data.remove('objectID');
 
     // Yield
@@ -253,7 +252,7 @@ class Algolia extends DocumentDatabaseAdapter {
       throw error;
     }
 
-    final jsonHitsList = apiResponse.json['hits'] as List<Object>;
+    final jsonHitsList = apiResponse.json!['hits'] as List<Object>;
 
     final items =
         List<QueryResultItem>.unmodifiable(jsonHitsList.map((jsonHit) {
@@ -261,9 +260,9 @@ class Algolia extends DocumentDatabaseAdapter {
         //
         // Declare locals
         //
-        String documentId;
+        late String documentId;
         final data = <String, Object>{};
-        double score;
+        double? score;
 
         //
         // Visit all properties
@@ -311,7 +310,7 @@ class Algolia extends DocumentDatabaseAdapter {
   @override
   Future<void> performDocumentUpdate(DocumentUpdateRequest request) async {
     final document = request.document;
-    final collection = document.parent;
+    final collection = document.parent!;
     final collectionId = _validateCollectionId(collection.collectionId);
     final documentId = _validateDocumentId(document.documentId);
 
@@ -348,7 +347,7 @@ class Algolia extends DocumentDatabaseAdapter {
   @override
   Future<void> performDocumentUpsert(DocumentUpsertRequest request) async {
     final document = request.document;
-    final collection = document.parent;
+    final collection = document.parent!;
     final collectionId = _validateCollectionId(collection.collectionId);
     final documentId = _validateDocumentId(document.documentId);
 
@@ -372,10 +371,10 @@ class Algolia extends DocumentDatabaseAdapter {
   }
 
   Future<_Response> _apiRequest({
-    @required String method,
-    @required String path,
-    Map<String, String> queryParameters,
-    Map<String, Object> bodyJson,
+    required String method,
+    required String path,
+    Map<String, String>? queryParameters,
+    Map<String, Object?>? bodyJson,
     bool isWrite = false,
   }) async {
     //
@@ -416,7 +415,7 @@ class Algolia extends DocumentDatabaseAdapter {
 
     // Decode JSON
     final responseJson = jsonDecode(responseString);
-    DatabaseException error;
+    DatabaseException? error;
     if (statusCode != HttpStatus.ok) {
       final message = responseJson['message'];
       error = DatabaseException.internal(
@@ -429,7 +428,7 @@ class Algolia extends DocumentDatabaseAdapter {
 
   /// Validates that the ID doesn't contain any potentially dangerous
   /// characters.
-  String _validateCollectionId(String /*?*/ s) {
+  String _validateCollectionId(String? s) {
     if (s == null ||
         s.contains('/') ||
         s.contains('%') ||
@@ -442,7 +441,7 @@ class Algolia extends DocumentDatabaseAdapter {
 
   /// Validates that the ID doesn't contain any potentially dangerous
   /// characters.
-  String _validateDocumentId(String /*?*/ s) {
+  String _validateDocumentId(String? s) {
     if (s == null ||
         s.contains('/') ||
         s.contains('%') ||
@@ -456,7 +455,7 @@ class Algolia extends DocumentDatabaseAdapter {
 
 class _Response {
   final int statusCode;
-  final Map<String, Object> json;
-  final DatabaseException error;
+  final Map<String, Object>? json;
+  final DatabaseException? error;
   _Response(this.statusCode, this.json, this.error);
 }

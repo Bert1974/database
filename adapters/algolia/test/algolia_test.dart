@@ -19,7 +19,7 @@ import 'package:database_adapter_algolia/database_adapter_algolia.dart';
 import 'package:test/test.dart';
 
 Future<Map<String, String>> getEnvironmentalVariables(
-    {List<String> /*?*/ includeFiles}) async {
+    {List<String>? includeFiles}) async {
   return Platform.environment;
 }
 
