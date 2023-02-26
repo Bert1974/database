@@ -105,7 +105,7 @@ class BuiltValueSerializationConfig extends Mapper {
   }
 }
 
-class _DateSerializer extends PrimitiveSerializer<Date> {
+class _DateSerializer extends PrimitiveSerializer<Date /*!*/ > {
   @override
   Iterable<Type> get types => const [Date];
 
@@ -115,6 +115,9 @@ class _DateSerializer extends PrimitiveSerializer<Date> {
   @override
   Date deserialize(Serializers serializers, Object serialized,
       {FullType specifiedType = FullType.unspecified}) {
+    /* if (serialized == null) {
+      return null;
+    }*/
     if (serialized is String) {
       return Date.parse(serialized);
     }
@@ -124,11 +127,14 @@ class _DateSerializer extends PrimitiveSerializer<Date> {
   @override
   Object serialize(Serializers serializers, Date object,
       {FullType specifiedType = FullType.unspecified}) {
+    /* if (object == null) {
+      return null;
+    }*/
     return object.toString();
   }
 }
 
-class _DocumentSerializer extends PrimitiveSerializer<Document> {
+class _DocumentSerializer extends PrimitiveSerializer<Document /*!*/ > {
   _DocumentSerializer();
 
   @override
@@ -140,14 +146,14 @@ class _DocumentSerializer extends PrimitiveSerializer<Document> {
   @override
   Document deserialize(Serializers serializers, Object serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    if (serialized == null) {
+    /* if (serialized == null) {
       return null;
-    }
+    }*/
     return serialized as Document;
   }
 
   @override
-  Document serialize(Serializers serializers, Document object,
+  Object serialize(Serializers serializers, Document object,
       {FullType specifiedType = FullType.unspecified}) {
     return object;
   }

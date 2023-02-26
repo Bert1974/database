@@ -23,7 +23,7 @@ class DocumentInsertRequest extends Request<Future<void>> {
   final Collection /*?*/ collection;
   final Document document;
   final Map<String, Object> /*!*/ data;
-  final Reach /*!*/ reach;
+  final Reach /*?*/ reach;
   final void Function(Document onDocument) onDocument;
   Schema inputSchema;
 

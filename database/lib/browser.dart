@@ -104,7 +104,7 @@ class BrowserLocalStorageDatabase extends DocumentDatabaseAdapter
       request.outputSchema,
       request.document.database,
       serialized,
-    ) as Map<String, Object>;
+    ) as Map<String, Object /*?*/ >;
     return Stream<Snapshot>.value(Snapshot(
       document: document,
       data: deserialized,
@@ -122,8 +122,9 @@ class BrowserLocalStorageDatabase extends DocumentDatabaseAdapter
     final keys = impl.keys.where((key) => key.startsWith(prefix));
 
     // Construct snapshots
-    final snapshots = keys.map((key) {
-      final documentId = _jsonPointerUnescape(key.substring(prefix.length));
+    final snapshots = keys.map<Snapshot /*?*/ >((key) {
+      final /*?*/ documentId =
+          _jsonPointerUnescape(key.substring(prefix.length));
       final document = collection.document(documentId);
       final serialized = impl[key];
       if (serialized == null) {
@@ -131,14 +132,14 @@ class BrowserLocalStorageDatabase extends DocumentDatabaseAdapter
       }
       final decoded =
           _decode(request.outputSchema, request.collection.database, serialized)
-              as Map<String, Object>;
+              as Map<String, Object /*?*/ >;
       return Snapshot(
         document: document,
         data: decoded,
       );
     });
 
-    List<Snapshot> result;
+    List<Snapshot /*?*/ > result;
     final query = request.query ?? const Query();
     if (query == null) {
       result = List<Snapshot>.unmodifiable(snapshots);
@@ -206,7 +207,7 @@ class BrowserLocalStorageDatabase extends DocumentDatabaseAdapter
   }
 
   static Object _decode(Schema schema, Database database, String s) {
-    final json = jsonDecode(s) as Map<String, Object>;
+    final json = jsonDecode(s) as Map<String, dynamic>;
     schema ??= Schema.fromJson(json['schema']) ?? ArbitraryTreeSchema();
     return schema.decodeWith(
       JsonDecoder(database: database),

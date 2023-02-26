@@ -249,7 +249,7 @@ class FirestoreBrowser extends DocumentDatabaseAdapter {
 
     final implQuerySnapshot = await implQuery.get();
     final implDocumentSnapshots = implQuerySnapshot.docs.skip(
-      query.skip ?? 0,
+      query.skip,
     );
     final snapshots = implDocumentSnapshots.map((implSnapshot) {
       final document = collection.document(

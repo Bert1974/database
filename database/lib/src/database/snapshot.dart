@@ -67,7 +67,7 @@ class Snapshot {
   final String versionId;
 
   /// Optional data of the snapshot.
-  final Map<String, Object> data;
+  final Map<String, Object /*?*/ > data;
 
   /// Optional vendor-specific data received from the database.
   /// For example, a database adapter for Elasticsearch could expose JSON

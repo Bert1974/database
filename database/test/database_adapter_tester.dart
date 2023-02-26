@@ -1013,7 +1013,7 @@ void runSqlTests() {
   });
 
   tearDownAll(() async {
-    await database?.adapter.close();
+    await database /*?*/ .adapter.close();
   });
 
   test('a simple example', () async {

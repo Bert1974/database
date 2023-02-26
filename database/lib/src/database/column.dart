@@ -144,7 +144,7 @@ class _ColumnQueryHelper<T> extends Column<T /*!*/ > with ColumnQueryHelper<T> {
       return;
     }
     var skip = _skip;
-    var take = _take;
+    var take = _take ?? 0;
     if (take == 0) {
       return;
     }
