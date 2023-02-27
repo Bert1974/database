@@ -22,7 +22,7 @@ abstract class ElasticSearchCredentials {
 
   void prepareHttpClient(
     ElasticSearch engine,
-    HttpClient httpClient,
+    HttpClient? httpClient,
   ) {}
 
   void prepareHttpClientRequest(
@@ -32,21 +32,21 @@ abstract class ElasticSearchCredentials {
 }
 
 class ElasticSearchPasswordCredentials extends ElasticSearchCredentials {
-  final String user;
-  final String password;
+  final String? user;
+  final String? password;
   const ElasticSearchPasswordCredentials({this.user, this.password});
 
   @override
   void prepareHttpClient(
     ElasticSearch database,
-    HttpClient httpClient,
+    HttpClient? httpClient,
   ) {
-    httpClient.addCredentials(
+    httpClient!.addCredentials(
       database.uri.resolve('/'),
-      null,
+      '',
       HttpClientBasicCredentials(
-        user,
-        password,
+        user!,
+        password!,
       ),
     );
   }

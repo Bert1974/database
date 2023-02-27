@@ -302,7 +302,8 @@ class FirestoreBrowser extends DocumentDatabaseAdapter {
         throw UnsupportedError('Nested properties');
       }
       for (var entry in filter.properties.entries) {
-        q = _handleFilter(q, entry.key, _valueToFirestore(_impl, entry.value) as Filter?);
+        q = _handleFilter(
+            q, entry.key, _valueToFirestore(_impl, entry.value) as Filter?);
       }
       return q;
     } else if (filter is ValueFilter) {

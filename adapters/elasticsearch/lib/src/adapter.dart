@@ -41,16 +41,16 @@ class ElasticSearch extends DocumentDatabaseAdapter {
   static final _idRegExp = RegExp(r'[^\/*?"<>| ,#]{1,64}');
   final Uri uri;
   final HttpClient httpClient;
-  final ElasticSearchCredentials _credentials;
+  final ElasticSearchCredentials? _credentials;
 
   final bool autoCreateIndex;
 
   ElasticSearch({
-    @required String host,
+    required String host,
     int port = 9200,
     String scheme = 'http',
-    ElasticSearchCredentials credentials,
-    HttpClient httpClient,
+    ElasticSearchCredentials? credentials,
+    HttpClient? httpClient,
     bool autoCreateIndex = true,
   }) : this.withUri(
           Uri(
@@ -66,8 +66,8 @@ class ElasticSearch extends DocumentDatabaseAdapter {
 
   ElasticSearch.withUri(
     this.uri, {
-    ElasticSearchCredentials credentials,
-    HttpClient httpClient,
+    ElasticSearchCredentials? credentials,
+    HttpClient? httpClient,
     this.autoCreateIndex = true,
   })  : _credentials = credentials,
         httpClient = httpClient ?? HttpClient() {
@@ -78,7 +78,7 @@ class ElasticSearch extends DocumentDatabaseAdapter {
   }
 
   @override
-  Future<void> performCheckConnection({Duration timeout}) async {
+  Future<void> performCheckConnection({Duration? timeout}) async {
     await _httpRequest(
       'GET',
       '/',
@@ -89,7 +89,7 @@ class ElasticSearch extends DocumentDatabaseAdapter {
   @override
   Future<void> performDocumentDelete(DocumentDeleteRequest request) async {
     final document = request.document;
-    final collection = document.parent;
+    final collection = document.parent!;
 
     //
     // Validate IDs
@@ -114,7 +114,7 @@ class ElasticSearch extends DocumentDatabaseAdapter {
         }
         return;
       default:
-        throw response.error;
+        throw response.error!;
     }
   }
 
@@ -123,8 +123,8 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     DocumentInsertRequest request, {
     bool autoCreateIndex = true,
   }) async {
-    final document = request.document;
-    final collection = document.parent;
+    final document = request.document!;
+    final collection = document.parent!;
     final schema = request.inputSchema ?? const ArbitraryTreeSchema();
 
     //
@@ -136,8 +136,8 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     //
     // Send HTTP request
     //
-    final json = schema.encodeWith(JsonEncoder(), request.data)
-        as Map<String, Object /*?*/ > /*?*/;
+    final json =
+        schema.encodeWith(JsonEncoder(), request.data) as Map<String, Object?>?;
     final response = await _httpRequest(
       'PUT',
       '/$collectionId/_create/$documentId',
@@ -181,14 +181,14 @@ class ElasticSearch extends DocumentDatabaseAdapter {
       case HttpStatus.created:
         return;
       default:
-        throw response.error;
+        throw response.error!;
     }
   }
 
   @override
   Stream<Snapshot> performDocumentRead(DocumentReadRequest request) async* {
     final document = request.document;
-    final collection = document.parent;
+    final collection = document.parent!;
     final schema = request.outputSchema ?? const ArbitraryTreeSchema();
 
     //
@@ -237,18 +237,18 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     //
     // Return snapshot
     //
-    final data = response.body['_source'];
+    final data = response.body!['_source'];
     final decoder = JsonDecoder(database: collection.database);
     yield (Snapshot(
       document: request.document,
-      versionId: response.body['_seq_no']?.toString(),
+      versionId: response.body!['_seq_no']?.toString(),
       data: schema.decodeWith(decoder, data),
     ));
   }
 
   @override
   Stream<QueryResult> performDocumentSearch(DocumentSearchRequest request,
-      {bool autoCreateIndex}) async* {
+      {bool? autoCreateIndex}) async* {
     final collection = request.collection;
     final schema = request.outputSchema ?? const ArbitraryTreeSchema();
 
@@ -260,12 +260,12 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     //
     // Construct request
     //
-    final jsonRequest = <String, Object /*?*/ >{};
+    final jsonRequest = <String, Object?>{};
 
     //
     // Filter
     //
-    final query = request.query;
+    final query = request.query!;
     final filter = query.filter;
     if (filter != null) {
       jsonRequest['query'] = {
@@ -303,7 +303,7 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     //
     {
       final skip = query.skip;
-      if (skip != null && skip != 0) {
+      if (skip != 0) {
         jsonRequest['from'] = skip;
       }
     }
@@ -356,7 +356,7 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     }
 
     var items = const <QueryResultItem>[];
-    final jsonHitsMap = response.body['hits'];
+    final jsonHitsMap = response.body!['hits'];
     if (jsonHitsMap is Map) {
       // This map contains information about hits
 
@@ -364,8 +364,8 @@ class ElasticSearch extends DocumentDatabaseAdapter {
       final jsonHitsList = jsonHitsMap['hits'] as List;
       items = jsonHitsList.map((h) {
         final documentId = h['_id'] as String;
-        final score = h['_score'] as double;
-        final data = h['_source'] as Map<String, Object /*?*/ >;
+        final score = h['_score'] as double?;
+        final data = h['_source'] as Map<String, Object?>?;
         final decoder = JsonDecoder(database: collection.database);
         return QueryResultItem(
           snapshot: Snapshot(
@@ -393,7 +393,7 @@ class ElasticSearch extends DocumentDatabaseAdapter {
   @override
   Future<void> performDocumentUpdate(DocumentUpdateRequest request) async {
     final document = request.document;
-    final collection = document.parent;
+    final collection = document.parent!;
     final schema = request.inputSchema ?? const ArbitraryTreeSchema();
 
     //
@@ -420,14 +420,14 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     //
     // Send HTTP request
     //
-    final json = schema.encodeWith(JsonEncoder(), request.data)
-        as Map<String, Object /*?*/ > /*?*/;
+    final json =
+        schema.encodeWith(JsonEncoder(), request.data) as Map<String, Object?>?;
     final response = await _httpRequest(
       'PUT',
       '/$collectionId/_update/$documentId',
       queryParameters: {
-        'if_primary_term': existsResponse.body['_primary_term'].toString(),
-        'if_seq_no': existsResponse.body['_seq_no'].toString(),
+        'if_primary_term': existsResponse.body!['_primary_term'].toString(),
+        'if_seq_no': existsResponse.body!['_seq_no'].toString(),
       },
       json: json,
     );
@@ -436,7 +436,7 @@ class ElasticSearch extends DocumentDatabaseAdapter {
       case HttpStatus.ok:
         return;
       default:
-        throw response.error;
+        throw response.error!;
     }
   }
 
@@ -446,7 +446,7 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     bool autoCreateIndex = true,
   }) async {
     final document = request.document;
-    final collection = document.parent;
+    final collection = document.parent!;
     final schema = request.inputSchema ?? const ArbitraryTreeSchema();
 
     //
@@ -458,8 +458,8 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     //
     // Send HTTP request
     //
-    final json = schema.encodeWith(JsonEncoder(), request.data)
-        as Map<String, Object /*?*/ > /*?*/;
+    final json =
+        schema.encodeWith(JsonEncoder(), request.data) as Map<String, Object?>?;
     final response = await _httpRequest(
       'PUT',
       '/$collectionId/_doc/$documentId',
@@ -505,12 +505,12 @@ class ElasticSearch extends DocumentDatabaseAdapter {
       case HttpStatus.ok:
         return;
       default:
-        throw response.error;
+        throw response.error!;
     }
   }
 
   @protected
-  Object valueToJson(Object value) {
+  Object valueToJson(Object? value) {
     if (value is int) {
       return value.toDouble();
     }
@@ -535,8 +535,8 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     String method,
     String path, {
     Map<String, String> queryParameters = const {},
-    Map<String, Object /*?*/ > json,
-    Duration timeout,
+    Map<String, Object?>? json,
+    Duration? timeout,
   }) async {
     // Open HTTP request
     final uri =
@@ -568,12 +568,11 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     );
 
     // Decode JSON
-    final jsonResponse =
-        jsonDecode(responseBody) as Map<String, Object /*?*/ > /*?*/;
+    final jsonResponse = (jsonDecode(responseBody) as Map<String, Object?>);
 
     // Handle error
     final jsonError = jsonResponse['error'];
-    ElasticSearchError error;
+    ElasticSearchError? error;
     if (jsonError != null) {
       error = ElasticSearchError.fromJson(
         jsonError,
@@ -605,13 +604,13 @@ class ElasticSearch extends DocumentDatabaseAdapter {
 
 class _Response {
   final int status;
-  final Map<String, Object /*?*/ > /*?*/ body;
-  final ElasticSearchError /*?*/ error;
+  final Map<String, Object?>? body;
+  final ElasticSearchError? error;
 
   _Response({
-    @required this.status,
-    @required this.body,
-    @required this.error,
+    required this.status,
+    required this.body,
+    required this.error,
   });
 
   void checkError() {

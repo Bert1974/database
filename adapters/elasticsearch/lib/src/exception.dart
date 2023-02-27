@@ -19,18 +19,18 @@ class ElasticSearchError {
 
   ElasticSearchError.fromJson(this.detailsJson);
 
-  String get reason {
+  String? get reason {
     final detailsJson = this.detailsJson;
     if (detailsJson is Map) {
-      return detailsJson['reason'] as String;
+      return detailsJson['reason'] as String?;
     }
     return null;
   }
 
-  String get type {
+  String? get type {
     final detailsJson = this.detailsJson;
     if (detailsJson is Map) {
-      return detailsJson['type'] as String;
+      return detailsJson['type'] as String?;
     }
     return null;
   }
