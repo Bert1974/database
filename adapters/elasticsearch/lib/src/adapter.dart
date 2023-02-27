@@ -599,8 +599,8 @@ class ElasticSearch extends DocumentDatabaseAdapter {
 
 class _Response {
   final int status;
-  final Map<String, Object /*?*/ > body;
-  final ElasticSearchError error;
+  final Map<String, Object /*?*/ > /*?*/ body;
+  final ElasticSearchError /*?*/ error;
 
   _Response({
     @required this.status,
