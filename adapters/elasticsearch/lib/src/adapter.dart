@@ -136,7 +136,8 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     //
     // Send HTTP request
     //
-    final json = schema.encodeWith(JsonEncoder(), request.data);
+    final json = schema.encodeWith(JsonEncoder(), request.data)
+        as Map<String, Object /*?*/ > /*?*/;
     final response = await _httpRequest(
       'PUT',
       '/$collectionId/_create/$documentId',
@@ -211,7 +212,9 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     if (error != null) {
       switch (error.type) {
         case 'index_not_found_exception':
-          yield (null);
+          //todo fix this
+          // yield (null);
+          // yield (Snapshot.notFound(request.document));
           return;
       }
       throw error;
@@ -417,7 +420,8 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     //
     // Send HTTP request
     //
-    final json = schema.encodeWith(JsonEncoder(), request.data);
+    final json = schema.encodeWith(JsonEncoder(), request.data)
+        as Map<String, Object /*?*/ > /*?*/;
     final response = await _httpRequest(
       'PUT',
       '/$collectionId/_update/$documentId',
@@ -454,7 +458,8 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     //
     // Send HTTP request
     //
-    final json = schema.encodeWith(JsonEncoder(), request.data);
+    final json = schema.encodeWith(JsonEncoder(), request.data)
+        as Map<String, Object /*?*/ > /*?*/;
     final response = await _httpRequest(
       'PUT',
       '/$collectionId/_doc/$documentId',
@@ -563,7 +568,8 @@ class ElasticSearch extends DocumentDatabaseAdapter {
     );
 
     // Decode JSON
-    final jsonResponse = jsonDecode(responseBody) as Map<String, Object /*?*/ >;
+    final jsonResponse =
+        jsonDecode(responseBody) as Map<String, Object /*?*/ > /*?*/;
 
     // Handle error
     final jsonError = jsonResponse['error'];
